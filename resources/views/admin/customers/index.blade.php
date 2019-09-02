@@ -130,9 +130,9 @@
                                         <td>
                                             <div class="button-group" style="display:flex;">
                                             <a href="{{route('customers.show',$customer->id)}}" class="btn btn-sm waves-effect waves-light btn-outline-success" >Show</a>
-                                            {{-- <a href="#" data-toggle="modal" data-target="#edita-customer" class="btn btn-sm waves-effect waves-light btn-outline-info">Edit</a> --}}
+                                            <a href="#" data-toggle="modal" data-target="#edita-customer" class="btn btn-sm waves-effect waves-light btn-outline-info">Edit</a>
 
-                                            <a href="{{route('customers.edit',$customer->id)}}" class="btn btn-sm waves-effect waves-light btn-outline-info" >Edit</a>
+                                            {{-- <a href="{{route('customers.edit',$customer->id)}}" class="btn btn-sm waves-effect waves-light btn-outline-info" >Edit</a> --}}
                                             <form action="{{route('customers.destroy',$customer->id)}}" method="POST" >{{ method_field('DELETE') }} {{csrf_field()}}
                                                     <button type="submit" name="del-user" class="btn btn-sm waves-effect waves-light btn-outline-danger" onclick="return ConfirmDelete()">
                                                         <i class="ft-x" aria-hidden="true" ></i>Elimina</button>
@@ -153,7 +153,7 @@
 
 
     @include('admin.customers.createform')
-    {{-- @include('admin.customers.modaledit') --}}
+    @include('admin.customers.modaledit')
 
 @endsection
 

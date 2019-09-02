@@ -130,34 +130,34 @@
                                                 @csrf
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <input type="text" class="form-control" id="nome" name="nome"
+                                                <input type="text" class="form-control"  name="nome"
                                                     placeholder="Nome" required>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <input type="text" class="form-control" id="cognome" name="cognome"
+                                                <input type="text" class="form-control"  name="cognome"
                                                     placeholder="Cognome" required>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
-                                                    <select class="form-control" tabindex="-1" name="sesso" id="sesso" aria-hidden="true" required>
+                                                    <select class="form-control" tabindex="-1" name="sesso"  aria-hidden="true" required>
                                                             <option value="" selected data-default>Seleziona Sesso</option>
                                                         <option value="maschio">M</option>
                                                         <option value="femmina">F</option>
                                                     </select>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" class="form-control" id="codfiscale"
+                                                <input type="text" class="form-control"
                                                     name="codfiscale" placeholder="Codice Fiscale" required>
                                             </div>
                                         </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="telefono" name="telefono"
+                                                    <input type="text" class="form-control"  name="telefono"
                                                         placeholder="Telefono" required>
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="cellulare" name="cellulare"
+                                                    <input type="text" class="form-control"  name="cellulare"
                                                         placeholder="Cellulare" required>
                                                 </div>
                                             </div>
@@ -165,11 +165,11 @@
 
                                             <div class="form-row">
                                                     <div class="form-group col-md-6">
-                                                        <input type="email" class="form-control" id="email" name="email"
+                                                        <input type="email" class="form-control"  name="email"
                                                             placeholder="Email" required>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <input type="password" class="form-control" id="password" name="password"
+                                                        <input type="password" class="form-control"  name="password"
                                                             placeholder="Password" required>
                                                     </div>
                                                 </div>
@@ -177,21 +177,14 @@
                                         <h6 class="mb-4">Luogo e data di nascita</h6>
 
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <input type="text" class="form-control" id="citta" name="citta"
+                                            <div class="form-group col-md-4">
+                                                <input type="text" class="form-control"  name="citta"
                                                     placeholder="Città" required>
                                             </div>
-
-                                            <div class="form-group col-md-6" id="datepicker">
-                                                <input class="form-control datepicker" id="datepicker" name="data" type="date"
-                                                    placeholder="Data di nascita" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <div class="form-group col-md-12">
+                                             <div class="form-group col-md-4">
                                                 <select class="form-control" tabindex="-1" aria-hidden="true" required
-                                                    id="provincia" name="provincia">
+                                                    name="provincia">
+                                                            <option value="" selected data-default>Seleziona Provincia</option>
                                                     <option value="ag">Agrigento</option>
                                                     <option value="al">Alessandria</option>
                                                     <option value="an">Ancona</option>
@@ -304,24 +297,28 @@
                                                     <option value="vt">Viterbo</option>
                                                 </select>
                                             </div>
+                                            <div class="form-group col-md-4" >
+                                                <input class="form-control datepicker"  name="data" type="date"
+                                                    placeholder="Data di nascita" required>
+                                            </div>
                                         </div>
-
 
                                         <h6 class="mb-4">Informazioni di domicilio</h6>
 
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="indirizzo" name="indirizzo"
+                                            <input type="text" class="form-control"  name="indirizzo"
                                                 placeholder="Indirizzo" required>
                                         </div>
 
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <input type="text" class="form-control" id="cittadom" name="cittadom"
+                                                <input type="text" class="form-control"  name="cittadom"
                                                     placeholder="Città" required>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <select class="form-control" tabindex="-1" aria-hidden="true"
-                                                    id="provinciadom" name="provinciadom" required>
+                                                     name="provinciadom" required>
+                                                            <option value="" selected data-default>Seleziona Provincia</option>
                                                     <option value="ag">Agrigento</option>
                                                     <option value="al">Alessandria</option>
                                                     <option value="an">Ancona</option>
@@ -435,7 +432,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-2">
-                                                <input type="text" class="form-control" id="cap" name="cap"
+                                                <input type="text" class="form-control"  name="cap"
                                                     placeholder="CAP" required>
                                             </div>
                                         </div>
@@ -456,7 +453,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-primary"
+                                        <button type="button" class="btn btn-outline-danger"
                                             data-dismiss="modal">Cancel</button>
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>

@@ -32,23 +32,6 @@
                         <div class="card-body">
                             <div class="profiletimeline">
                                 <div class="sl-item">
-                                    <div class="sl-left"> </div>
-                                    <div class="sl-right">
-                                        <div><a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                                            <p>assign a new task <a href="#"> Design weblayout</a></p>
-                                            <div class="row">
-                                                <div class="col-lg-3 col-md-6 m-b-20"><img src="{{url('/')}}/assets/images/big/img1.jpg" class="img-responsive radius"></div>
-                                                <div class="col-lg-3 col-md-6 m-b-20"><img src="{{url('/')}}/assets/images/big/img2.jpg" class="img-responsive radius"></div>
-                                                <div class="col-lg-3 col-md-6 m-b-20"><img src="{{url('/')}}/assets/images/big/img3.jpg" class="img-responsive radius"></div>
-                                                <div class="col-lg-3 col-md-6 m-b-20"><img src="{{url('/')}}/assets/images/big/img4.jpg" class="img-responsive radius"></div>
-                                            </div>
-                                            <div class="like-comm"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                                <hr>
-                                <div class="sl-item">
                                     <div class="sl-left"> <img src="{{url('/')}}/assets/images/users/4.jpg" alt="user" class="img-circle"> </div>
                                     <div class="sl-right">
                                         <div><a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
@@ -67,7 +50,36 @@
 
                     <div class="tab-pane active" id="settings" role="tabpanel" aria-expanded="true">
                         <div class="card-body">
-                               @include('admin.customers.editform')
+                               {{-- @include('admin.customers.editform') --}}
+                               <div class="card-body"> 
+                                    <small class="text-muted">Nome e Cognome </small>
+                                <h6>{{$customer->nome}} {{$customer->cognome}} </h6> 
+                                 <small class="text-muted">Email </small>
+                                <h6>{{$customer->email}}</h6> 
+                                   <small class="text-muted">Data di Nascita </small>
+                                <h6>{{date("d/m/Y", strtotime($customer->data))}}</h6> 
+                                <small class="text-muted ">Cellulare - Telefono</small>
+                                <h6>{{$customer->cellulare}}  / {{$customer->telefono}} </h6> 
+                                <small class="text-muted p-t-30 db">Indirizzo</small>
+                                <h6>{{$customer->indirizzo}} , {{$customer->cittadom}} {{ucwords($customer->provinciadom)}}  {{$customer->cap}}</h6>
+                                <div class="map-box">
+                                        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+                                        <!-- "Highlight a place or an address" -->
+                                        <iframe 
+                                        width="100%" height="150" frameborder="0" style="border:0" allowfullscreen="" src="https://www.google.com/maps/embed/v1/place?q=
+                                        {{$customer->indirizzo}}
+                                        &key=AIzaSyBjs0j5BupCpuM2LhuYDHVEEagNXPIbLPQ
+                                        ">
+                                        </iframe>
+                                </div> 
+                                <small class="text-muted p-t-30 db">Social Profile</small>
+                                <br>
+                                <button class="btn btn-circle btn-secondary"><i class="fa fa-facebook"></i></button>
+                                <button class="btn btn-circle btn-secondary"><i class="fa fa-twitter"></i></button>
+                                <button class="btn btn-circle btn-secondary"><i class="fa fa-youtube"></i></button>
+                            </div>
+                            <a href="#" data-toggle="modal" data-target="#edita-customer" class="btn btn-sm waves-effect waves-light btn-outline-info">Modifica</a>
+
                         </div>
                     </div>
                 </div>
@@ -75,6 +87,7 @@
         </div>
         <!-- Column -->
     </div>
+    @include('admin.customers.modaledit')
 @endsection
 
 

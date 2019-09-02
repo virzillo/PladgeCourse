@@ -7,9 +7,16 @@ use App\Card;
 use Illuminate\Support\Facades\Validator;
 use App\Logcard;
 use Auth;
+use App\Eicardcode;
 
 class StorageController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +26,12 @@ class StorageController extends Controller
     {
         $cards = Card::all();
         $logcards = Logcard::all();
-        return view('admin.magazzino.index', compact('cards', 'logcards'));
+        $tot = Eicardcode::count();
+        $eicard_code_attivi = count(Eicardcode::where('attivo', '1')->get());
+        $concodice = Eicardcode::count('codice');
+        // dd($eicard_code_attivi);
+        // dd($eicard_code_attivi);
+        return view('admin.magazzino.index', compact('cards', 'logcards', 'eicard_code_attivi', 'concodice', 'tot'));
     }
 
     /**
@@ -39,11 +51,6 @@ class StorageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    public function add(Request $request)
     {
         // $validator = Validator::make($request->all(), [
         //     'nome' => 'required|max:255',
@@ -71,6 +78,7 @@ class StorageController extends Controller
 
         $card->save();
 
+
         Logcard::create([
             'card_id' => $card->id,
             'quantita' => $data['quantita'],
@@ -85,9 +93,25 @@ class StorageController extends Controller
             'message' => 'Dati inseriti con successo!',
             'alert-type' => 'success'
         );
-        return view('admin.magazzino.index', compact('notification', 'logcards', 'cards'));
+        if ($card->nome == 'EICARD') {
+            $i = 1;
+            $qta = $card->quantita;
+            while ($i <= $data['quantita']) :
+                Eicardcode::create([
+                    'attivo' => '1',
+                ]);
+                $i++;
+            endwhile;
+        }
+        $tot = Eicardcode::count();
+        $eicard_code_attivi = count(Eicardcode::where('attivo', '1')->get());
+        $concodice = Eicardcode::count('codice');
+        return view('admin.magazzino.index', compact('notification', 'logcards', 'cards', 'eicard_code_attivi', 'tot', 'concodice'));
         // return back()->with($notification);
     }
+
+    public function add(Request $request)
+    { }
     /**
      * Display the specified resource.
      *

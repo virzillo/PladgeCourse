@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Card;
+use App\Eicardcode;
 
 class CardController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +32,25 @@ class CardController extends Controller
         //
     }
 
+    public function addcode()
+    {
+        $data = request()->validate([
+            'codice' => 'required',
+        ]);
+
+        $eicardcode = Eicardcode::where('codice', null)->first();
+        // dump($eicardcode->id);
+        $eicardcode->codice = $data['codice'];
+        $eicardcode->attivo = '1';
+
+        $eicardcode->save();
+
+        $notification = array(
+            'message' => 'Codice inseriti con successo!',
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -33,7 +59,18 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'nome' => 'required|max:255',
+
+        ]);
+        Card::create([
+            'nome' => $data['nome'],
+        ]);
+        $notification = array(
+            'message' => 'Card creata con successo!',
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
     }
 
     /**

@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Setting;
+use App\Xsetting;
 use App\Traits\UploadTrait;
+use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
     use UploadTrait;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -18,7 +24,8 @@ class SettingController extends Controller
     public function index()
     {
         $settings = Setting::find(1)->first();
-        return view('admin.settings.index', compact('settings'));
+        $tipopagamento = Xsetting::where('nome', 'TipoPagamento')->get();
+        return view('admin.settings.index', compact('settings', 'tipopagamento'));
     }
 
     /**
@@ -85,7 +92,7 @@ class SettingController extends Controller
             // Get image file
             $image = $request->file('logo');
             // Make a image name based on user name and current timestamp
-            $name = str_slug($request->input('titolo')) . '_' . time();
+            $name = $request->input('titolo') . '_' . time();
             // Define folder path
             $folder = '/uploads/images/';
             // Make a file path where image will be stored [ folder path + file name + file extension]

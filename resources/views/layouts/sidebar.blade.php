@@ -61,6 +61,10 @@
 
                         </li>
                           <li>
+                            <a class=" waves-effect waves-dark" href="{{route('spese.index')}}" aria-expanded="false"><i class="mdi mdi-file"></i><span class="hide-menu">Spese</span></a>
+
+                        </li>
+                          <li>
                             <a class=" waves-effect waves-dark" href="{{route('proposal.index')}}" aria-expanded="false"><i class="mdi  mdi-chart-line"></i><span class="hide-menu">Offerte</span></a>
 
                         </li>
@@ -108,7 +112,7 @@
                                 <li><a href="form-tinymce.html">Tinymce Editor</a></li>
                             </ul>
                         </li>--}}
-                        @role('admin')
+                        @role('user')
                         <li>
                             <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">Tables</span></a>
                             <ul aria-expanded="false" class="collapse">

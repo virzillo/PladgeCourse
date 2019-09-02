@@ -8,6 +8,13 @@ use App\Course;
 
 class ModuleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -37,10 +44,11 @@ class ModuleController extends Controller
     public function store(Request $request)
     {
         $modules = Module::all();
+
         Module::create([
             'nome' => $request['nome'],
             'descrizione' => $request['descrizione'],
-            'durata' => $request['durata'],
+            // 'durata' => $request['durata'],
             'costo' => $request['costo'],
             'course_id' => $request['course_id']
         ]);
@@ -48,6 +56,7 @@ class ModuleController extends Controller
             'message' => 'Esame inserito con successo!',
             'alert-type' => 'success'
         );
+
         return back()->with($notification, $modules);
     }
 
@@ -91,7 +100,7 @@ class ModuleController extends Controller
         $module->nome = $request->get('nome');
         $module->descrizione = $request->get('descrizione');
         $module->importo = $request->get('importo');
-        $module->durata = $request->get('durata');
+        // $module->durata = $request->get('durata');
 
 
         $module->save();
@@ -127,9 +136,8 @@ class ModuleController extends Controller
 
         return  request()->validate([
             'nome' => 'required|min:2',
-            'descrizione' => 'required|min:2',
+            'descrizione' => 'min:2',
             'importo' => 'required',
-            'durata' => 'required',
         ]);
     }
 }

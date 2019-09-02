@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
+use App\Customer;
 use Illuminate\Http\Request;
 
 class ProposalController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +21,9 @@ class ProposalController extends Controller
      */
     public function index()
     {
-        return view('admin.offerte.index');
+        $customers = Customer::all();
+        $courses = Course::all();
+        return view('admin.offerte.index', compact('customers', 'courses'));
     }
 
     /**

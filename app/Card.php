@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Logcard;
 use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model

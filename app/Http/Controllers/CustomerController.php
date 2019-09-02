@@ -8,6 +8,13 @@ use Auth;
 
 class CustomerController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -54,8 +61,8 @@ class CustomerController extends Controller
             'cognome' => 'required',
             'sesso' => 'required',
             'codfiscale' => 'required',
-            'telefono' => 'integer|min:2|required',
-            'cellulare' => 'integer|min:2|required',
+            'telefono' => 'min:2|required',
+            'cellulare' => 'min:2',
             'email' => 'required',
             'password' => 'required',
 
@@ -146,9 +153,29 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id)->first();
 
-        $customer->nome = $request->get('nome');
-        $customer->cognome = $request->get('cognome');
-        $customer->email = $request->get('email');
+        // $customer->nome = $request->get('nome');
+        // $customer->cognome = $request->get('cognome');
+        // $customer->email = $request->get('email');
+        $customer->nome = $request['nome'];
+        $customer->cognome = $request['cognome'];
+        $customer->sesso = $request['sesso'];
+        $customer->codfiscale = $request['codfiscale'];
+        $customer->telefono = $request['telefono'];
+        $customer->cellulare = $request['cellulare'];
+        $customer->email = $request['email'];
+        // $customer->password = $request['password'];
+
+        $customer->citta = $request['citta'];
+        $customer->data = $request['data'];
+        $customer->provincia = $request['provincia'];
+
+        $customer->indirizzo = $request['indirizzo'];
+        $customer->cittadom = $request['cittadom'];
+        $customer->provinciadom = $request['provinciadom'];
+        $customer->cap = $request['cap'];
+
+        $customer->titolostudio = $request['titolostudio'];
+        $customer->occupazione = $request['occupazione'];
 
         $customer->save();
 

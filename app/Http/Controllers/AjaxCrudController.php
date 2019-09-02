@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Customer;
 use Validator;
+use App\Module;
 use App\Company;
+use App\Customer;
+use Illuminate\Http\Request;
 
 class AjaxCrudController extends Controller
 {
@@ -16,48 +17,47 @@ class AjaxCrudController extends Controller
      */
     public function index()
     {
-        if(request()->ajax())
-        {
-            return datatables()->of(Customer::latest()->get())
-                    ->addColumn('action', function($data){
-                        $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
-                        $button .= '&nbsp;&nbsp;';
-                        $button .= '<button type="button" name="delete" id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
-                        return $button;
-                    })
-                    ->addColumn('company', function($data){
-                        $testo=$data->company->name;
-                        return $testo;
-                    })
-                    ->rawColumns(['company'])
-                    ->rawColumns(['action'])
+        if (request()->ajax()) {
 
 
-                    ->make(true);
+            $data = Customer::latest()->get();
+            $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
+            $button .= '&nbsp;&nbsp;';
+            $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
+            $testo = $data->company->name;
+            return response()->json(['data' => $data, 'button' => $button, 'testo' => $testo]);
         }
         $companies = Company::all();
-        return view('home',compact('companies'));
+        return view('home', compact('companies'));
     }
 
-    public function getcompanies(){
+    public function getcompanies($course_id)
+    {
 
+        // Fetch all records
+        $userData['data'] = Modules::getuserData($course_id);
 
+        echo json_encode($userData);
+        exit;
 
-        if(request()->ajax())
-        {
-            return datatables()->of(Company::latest()->get())
-                    ->addColumn('action', function($dsata){
-                        $button = '<button type="button" name="edit" id="'.$dsata->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
-                        $button .= '&nbsp;&nbsp;';
-                        $button .= '<button type="button" name="delete" id="'.$dsata->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
-                        return $button;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+        // if (request()->ajax()) {
+        //     $modules = Modules::find($course_id)->get;
+        //     return response()->json(['modules' => $modules]);
+        // }
+    }
+    public function fetchCompany($id)
+    {
+        // $modules = Modules::all();
+
+        $data = Module::where('course_id', $id)->get();
+        $button = "";
+        foreach ($data as $dato) {
+            // $button = $dato->nome 
+            $button .= '<option value="' . $dato->nome . '">' . $dato->nome  . '</option>';
         }
-
-
+        return response()->json(['data' => $data, 'button' => $button]);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -117,7 +117,6 @@ class AjaxCrudController extends Controller
         Customer::create($this->validateRequest());
 
         return response()->json(['success' => 'Data Added successfully.']);
-
     }
 
     /**
@@ -139,8 +138,7 @@ class AjaxCrudController extends Controller
      */
     public function edit($id)
     {
-        if(request()->ajax())
-        {
+        if (request()->ajax()) {
             $data = Customer::findOrFail($id);
             return response()->json(['data' => $data]);
         }
@@ -157,8 +155,7 @@ class AjaxCrudController extends Controller
     {
         $image_name = $request->hidden_image;
         $image = $request->file('image');
-        if($image != '')
-        {
+        if ($image != '') {
             $rules = array(
                 'name'    =>  'required',
                 'email'     =>  'required',
@@ -167,16 +164,13 @@ class AjaxCrudController extends Controller
                 'company_id'     =>  'required',
             );
             $error = Validator::make($request->all(), $rules);
-            if($error->fails())
-            {
+            if ($error->fails()) {
                 return response()->json(['errors' => $error->errors()->all()]);
             }
 
             $image_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $image_name);
-        }
-        else
-        {
+        } else {
             $rules = array(
                 'first_name'    =>  'required',
                 'last_name'     =>  'required'
@@ -184,8 +178,7 @@ class AjaxCrudController extends Controller
 
             $error = Validator::make($request->all(), $rules);
 
-            if($error->fails())
-            {
+            if ($error->fails()) {
                 return response()->json(['errors' => $error->errors()->all()]);
             }
         }
@@ -200,9 +193,7 @@ class AjaxCrudController extends Controller
         return response()->json(['success' => 'Data is successfully updated']);
 
 
-         $request->update($this->validateRequest());
-
-
+        $request->update($this->validateRequest());
     }
 
     /**
@@ -228,6 +219,4 @@ class AjaxCrudController extends Controller
             'company_id' => 'required'
         ]);
     }
-
-
 }

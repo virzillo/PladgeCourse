@@ -17,8 +17,8 @@ class CreateCardsTable extends Migration
             $table->bigIncrements('id');
             $table->string('nome');
             $table->string('descrizione')->nullable();
-            $table->integer('quantita');
-            $table->float('costo');
+            $table->integer('quantita')->nullable();
+            $table->float('costo')->nullable();
             $table->timestamps();
         });
     }

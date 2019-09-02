@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Dashboard;
 use Illuminate\Http\Request;
 
@@ -12,13 +13,21 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
         return view('admin.dashboard.index');
     }
     public function calendar()
     {
-        return view('admin.calendar.index');
+        $courses = Course::all();
+        return view('admin.calendar.index', compact('courses'));
     }
 
     public function classi()

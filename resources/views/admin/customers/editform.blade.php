@@ -74,7 +74,7 @@
                                             <div class="form-group col-md-12">
                                                 <select class="form-control" tabindex="-1" aria-hidden="true" 
                                                     id="provincia" name="provincia">
-                                                    <option value="{{$customer->provincia}}">{{$customer->provincia}}</option>
+                                                    <option value="{{$customer->provincia}}">{{ucwords($customer->provincia)}}</option>
 
                                                     <option value="ag">Agrigento</option>
                                                     <option value="al">Alessandria</option>
@@ -206,7 +206,7 @@
                                             <div class="form-group col-md-4">
                                                 <select class="form-control" tabindex="-1" aria-hidden="true"
                                                     id="provinciadom" name="provinciadom" required>
-                                                    <option value="{{$customer->provinciadom}}">{{$customer->provinciadom}}</option>
+                                                    <option value="{{$customer->provinciadom}}">{{ucwords($customer->provinciadom)}}</option>
                                                     <option value="ag">Agrigento</option>
                                                     <option value="al">Alessandria</option>
                                                     <option value="an">Ancona</option>

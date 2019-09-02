@@ -8,11 +8,19 @@ use App\Module;
 
 class CourseController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
         $courses = Course::all();
+        $modules = Module::all();
 
-        return view('admin.courses.index', compact('courses'));
+        return view('admin.courses.index', compact('courses', 'modules'));
     }
 
     public function show($id)
@@ -43,6 +51,7 @@ class CourseController extends Controller
         $course->nome = $request->get('nome');
         $course->descrizione = $request->get('descrizione');
         $course->costo = $request->get('costo');
+        $course->esame = $request->get('esame');
 
         $course->save();
 
@@ -60,15 +69,16 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $modules = Module::all();
-        $courses = Course::all();
 
         Course::create($this->validateRequest());
         $notification = array(
             'message' => 'Corso inserito con successo!',
             'alert-type' => 'success'
         );
-        return view('admin.courses.index')->with($notification, $modules, $courses);
+        $courses = Course::all();
+        $modules = Module::all();
+
+        return view('admin.courses.index', compact('courses', 'modules', 'notification'));
     }
 
 
@@ -78,8 +88,8 @@ class CourseController extends Controller
 
         return  request()->validate([
             'nome' => 'required|min:2',
-            'descrizione' => 'required|min:2',
             'costo' => 'required',
+            'esame' => 'required',
 
         ]);
     }

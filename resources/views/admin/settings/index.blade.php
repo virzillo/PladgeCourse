@@ -53,7 +53,66 @@
                 </div>
             </div>
         </div>
+
+          <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body bg-info">
+                    <h4 class="text-white card-title">Aggiungi tipo pagamento</h4>
+                    <h6 class="card-subtitle text-white m-b-0 op-5"></h6> </div>
+                <div class="card-body">
+                    <div class="message-box contact-box">
+                        <h2 class="add-ct-btn">
+                            <button type="button" data-toggle="modal" data-target="#addTipo" class="btn   btn-danger  waves-effect waves-dark">nuovo</button>
+                            {{-- <button type="button" data-toggle="modal" data-target="#addCard"  class="btn  btn-success waves-effect waves-dark">ricarica</button> --}}
+                            <button type="button" data-toggle="modal" data-target="#vediTab"  class="btn  btn-primary waves-effect waves-dark">show</button>
+                        </h2>
+                        <div class="message-widget contact-widget">
+                          @foreach ($tipopagamento as $item)
+                               <!-- Message -->
+                            <a href="#">
+                                <div class="mail-contnet">
+                                    <h5>{{$item->valore}}</h5>
+                                </div>
+                            </a>
+                          @endforeach
+                           
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </div>
+
+
+ <div class="modal fade" id="addTipo" tabindex="-1" role="dialog" aria-labelledby="addCardLabel1" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel1">Aggiungi modalità pagamento</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                          <form action="{{ route('xsettings.store') }}" method="POST">
+                                @csrf
+                           
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">nome:</label>
+                                <input type="text" class="form-control" id="valore" name="valore">
+                            </div>
+                           
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Inserisci</button>
+                    </div>
+                        </form>
+
+                </div>
+            </div>
+        </div>
+
 
 @endsection
 
