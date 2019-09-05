@@ -7,7 +7,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
-                          <form action="{{ route('storage.store') }}"  id="formPekit"  method="POST">
+                          <form action="{{ route('magazzino.store') }}"  id="formPekit"  method="POST">
                                 @csrf
                              <input type="hidden" class="form-control" id="nome" name="nome" value="PEKIT">
                             
@@ -41,7 +41,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
-                          <form action="{{ route('storage.store') }}" method="POST">
+                          <form action="{{ route('magazzino.store') }}" method="POST">
                                 @csrf
                              <input type="hidden" class="form-control" id="nome" name="nome" value="PEKIT">
                             

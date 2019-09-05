@@ -4,8 +4,8 @@
 @section('content')
 
 @include('widgets.breadcrumb', [
-    'titolo' => 'Impostazioni Generali Programma',
-    'posizione' => 'Impostazioni',
+    'titolo' => 'Magazzino',
+    'posizione' => 'Magazzino',
     'pulsante' => ' '
     
     ] )
@@ -15,6 +15,9 @@
 @endpush
 @include('widgets.errors')
 <div class="row">
+
+   
+
         <div class="col-lg-4 col-md-12">
             <div class="card">
                 <div class="card-body bg-info">

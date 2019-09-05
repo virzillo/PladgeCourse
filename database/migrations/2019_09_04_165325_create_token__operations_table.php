@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCardsTable extends Migration
+class CreateTokenOperationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateCardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('cards', function (Blueprint $table) {
+        Schema::create('token__operations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nome');
-            $table->string('descrizione')->nullable();
-            $table->integer('quantita')->nullable()->default(0);
-            $table->float('costo')->nullable()->default(0);
+
+            $table->unsignedBigInteger('token_id');
+            $table->foreign('token_id')->references('id')->on('tokens');
+
+            $table->integer('quantita')->nullable();
+            $table->float('costo')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateCardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cards');
+        Schema::dropIfExists('token__operations');
     }
 }

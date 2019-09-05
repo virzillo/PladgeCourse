@@ -34,10 +34,10 @@ class PermissionsServiceProvider extends ServiceProvider
             return "<?php endif; ?>";
         });
 
-        Permission::get()->map(function ($permission) {
-            Gate::define($permission->slug, function ($user) use ($permission) {
-                return $user->hasPermissionTo($permission);
-            });
-        });
+        // Permission::get()->map(function ($permission) {
+        //     Gate::define($permission->slug, function ($user) use ($permission) {
+        //         return $user->hasPermissionTo($permission);
+        //     });
+        // });
     }
 }

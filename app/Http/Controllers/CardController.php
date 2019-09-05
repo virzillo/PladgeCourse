@@ -66,6 +66,7 @@ class CardController extends Controller
         Card::create([
             'nome' => $data['nome'],
         ]);
+
         $notification = array(
             'message' => 'Card creata con successo!',
             'alert-type' => 'success'

@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () 
 
     Route::resource('settings', 'SettingController');
     Route::resource('storage', 'StorageController');
+    Route::resource('magazzino', 'MagazzinoController');
     Route::resource('proposal', 'ProposalController');
 
     // Route::post('storage', 'StorageController@add')->name('storage.add');

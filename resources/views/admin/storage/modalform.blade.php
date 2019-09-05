@@ -1,15 +1,15 @@
 
-        <div class="modal fade" id="addUpgrade" tabindex="-1" role="dialog" aria-labelledby="upgradetlabel" aria-hidden="true" role="dialog" style="display: none;">
+        <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addCardLabel1" aria-hidden="true" role="dialog" style="display: none;">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="exampleModalLabel1">Aggiungi quantità UPGRADE</h4>
+                        <h4 class="modal-title" id="exampleModalLabel1"></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
-                          <form action="{{ route('magazzino.store') }}"  id="formUpgrade"  method="POST">
+                          <form action="{{ route('storage.store') }}"  id="formEipassOnline"  method="POST">
                                 @csrf
-                             <input type="hidden" class="form-control" id="nome" name="nome" value="UPGRADE">
+                             <input type="hidden" class="form-control" id="id" name="id">
                             
                             <div class="form-group">
                                 <label for="recipient-name" class="control-label">Seleziona quantità:</label>
@@ -17,7 +17,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="message-text" class="control-label">Costo per unità:</label>
-                                <input type="number" class="form-control" id="costo" name="costo">
+                                <input type="text" class="form-control" id="costo" name="costo">
                             </div>
                     </div>
                    
@@ -32,26 +32,26 @@
                 </div>
             </div>
         </div>
-@if (isset($upgrade))
-         <div class="modal fade" id="editUpgrade" tabindex="-1" role="dialog" aria-labelledby="addCardLabel1" aria-hidden="true" style="display: none;">
+@if (isset($eipass))
+         <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="addCardLabel1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="exampleModalLabel1">Modifica quantità UPGRADE</h4>
+                        <h4 class="modal-title" id="exampleModalLabel1">Modifica quantità Eipass Online</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
-                          <form action="{{ route('magazzino.store') }}" method="POST">
+                          <form action="{{ route('storage.store') }}" method="POST">
                                 @csrf
-                             <input type="hidden" class="form-control" id="nome" name="nome" value="UPGRADE">
+                             <input type="hidden" class="form-control" id="nome" name="nome" value="Eipass Corsi on-line">
                             
                             <div class="form-group">
                                 <label for="recipient-name" class="control-label">Seleziona quantità:</label>
-                                <input type="number" class="form-control" id="quantita" name="quantita" value="{{$upgrade->quantita}}">
+                                <input type="number" class="form-control " id="quantita" name="quantita" value="{{$eipass->quantita}}">
                             </div>
                             <div class="form-group">
                                 <label for="message-text" class="control-label">Costo per unità:</label>
-                                <input type="number" class="form-control" id="costo" name="costo" value="{{$upgrade->costo}}">
+                                <input type="text" class="form-control" id="costo" name="costo" value="{{$eipass->costo}}">
                             </div>
                     </div>
                     <div class="modal-footer">

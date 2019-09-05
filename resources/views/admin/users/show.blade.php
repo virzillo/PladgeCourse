@@ -119,14 +119,26 @@
                                                 <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line" name="email" id="email" value="{{$user->email}}">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group row">
                                             <label for="example-password" class="col-md-12">Password</label>
                                             
-                                            <div class="col-md-12">
-                                                <input type="password" value="" class="form-control" name="password" >
+                                            <div class="col-md-6">
+                                                <input type="password" id="password" value="" class="form-control" name="password" >
 
                                             </div>
+                                              <div class="col-md-4">
+                                                <input type="text" id="label" value="" class="form-control" name="password" readonly>
 
+                                                </div>
+                                             
+                                            </div>
+                                         <div class="form-group">
+                                               <div class="col-md-4">
+                                                 <input id="random_password" name="random_password" value="true"
+                                                        class="form-control" type="checkbox">
+                                                <label for="random_password">random</label>
+
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
@@ -158,7 +170,7 @@
 
 
 @push('script')
-     <!-- This is data table -->
+     {{-- <!-- This is data table -->
     <script src="{{url('/')}}/assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <!-- start - This is for export functionality only -->
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
@@ -215,5 +227,36 @@
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     });
-    </script>
+    </script> --}}
+
+
+
+<script>
+    $('#random_password').change(function () {
+        var randPassword = $(this).is(":checked");
+        var value = makeid(8);
+        if (randPassword) {
+            $('#password').val(value);
+            $('#label').val(value);
+            $('#password').attr('readonly', 'readonly');
+        } else {
+            $('#password').val('');
+            $('#label').val('');
+            $('#password').removeAttr('readonly');
+        }
+        console.log(value);
+    });
+
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
+</script>
 @endpush
+

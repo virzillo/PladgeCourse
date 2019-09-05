@@ -16,7 +16,8 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-
+            // $table->unsignedBigInteger('token_id');
+            // $table->foreign('token_id')->references('id')->on('tokens');
 
             $table->enum('tipo', ['insede', 'online'])->nullable();
             $table->string('nome');

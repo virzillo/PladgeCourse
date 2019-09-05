@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Card;
-use Illuminate\Support\Facades\Validator;
-use App\Logcard;
 use Auth;
+use App\Card;
+use App\Token;
+use App\Logcard;
 use App\Eicardcode;
+use App\Token_Operation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StorageController extends Controller
 {
@@ -24,18 +26,22 @@ class StorageController extends Controller
      */
     public function index()
     {
-        $cards = Card::all();
-        $logcards = Logcard::all();
-        $tot = Eicardcode::count();
-        $eicard_code_attivi = count(Eicardcode::where('attivo', '1')->get());
-        $eipass = Card::where('nome', 'Eipass Corsi on-line')->first();
-        $upgrade = Card::where('nome', 'UPGRADE')->first();
-        $pekit = Card::where('nome', 'PEKIT')->first();
+        // $cards = Card::all();
+        // $logcards = Logcard::all();
+        // $tot = Eicardcode::count();
+        // $eicard_code_attivi = count(Eicardcode::where('attivo', '1')->get());
+        // $eipass = Card::where('nome', 'Eipass Corsi on-line')->first();
+        // $upgrade = Card::where('nome', 'UPGRADE')->first();
+        // $pekit = Card::where('nome', 'PEKIT')->first();
+        // $concodice = Eicardcode::count('codice');
 
-        $concodice = Eicardcode::count('codice');
-        // dd($eicard_code_attivi);
-        // dd($eicard_code_attivi);
-        return view('admin.magazzino.index', compact('cards', 'logcards', 'eicard_code_attivi', 'concodice', 'tot', 'eipass', 'upgrade', 'pekit'));
+        $tokens = Token::all();
+        $token_operations = Token_Operation::all();
+
+
+        return view('admin.storage.index', compact('tokens', 'token_operations'));
+
+        // return view('admin.magazzino.index', compact('cards', 'logcards', 'eicard_code_attivi', 'concodice', 'tot', 'eipass', 'upgrade', 'pekit', 'token'));
     }
 
     /**
@@ -57,79 +63,67 @@ class StorageController extends Controller
     public function store(Request $request)
     {
 
-        // if (request()->ajax()) {
 
-        //     $data = request()->validate([
-        //         'nome' => 'required|max:255',
-        //         'quantita' => 'required',
-        //         'costo' => 'required',
-        //     ]);
-        //     $temp_card = Card::where('nome', $data['nome'])->first();
-
-        //     $card = Card::find($temp_card->id);
-
-        //     $card->quantita = $data['quantita'];
-        //     $card->costo = $data['costo'];
-        //     $card->save();
-
-        //     return response()->json(['data' => $card]);
-        // }
-        // $validator = Validator::make($request->all(), [
-        //     'nome' => 'required|max:255',
-        //     'quantita' => 'required',
-        //     'costo' => 'required',
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return back()
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
         $data = request()->validate([
-            'nome' => 'required|max:255',
+            'id' => 'required|max:255',
             'quantita' => 'required',
             'costo' => 'required',
         ]);
-        $temp_card = Card::where('nome', $data['nome'])->first();
 
-        $card = Card::find($temp_card->id);
-
-        $card->quantita = $data['quantita'];
-        $card->costo = $data['costo'];
-        $card->save();
-
-
-        Logcard::create([
-            'card_id' => $card->id,
+        Token_Operation::create([
+            'token_id' => $data['id'],
             'quantita' => $data['quantita'],
-            'operatore' => Auth::user()->id,
             'costo' => $data['costo'],
-
         ]);
-        $logcards = Logcard::all();
-        $cards = Card::all();
+        $tokens = Token::all();
+        $token_operations = Token_Operation::all();
 
         $notification = array(
             'message' => 'Dati inseriti con successo!',
             'alert-type' => 'success'
         );
-        if ($card->nome == 'EICARD') {
-            $i = 1;
-            $qta = $card->quantita;
-            while ($i <= $data['quantita']) :
-                Eicardcode::create([
-                    'attivo' => '1',
-                ]);
-                $i++;
-            endwhile;
-        }
-        $eipass = Card::where('nome', 'Eipass Corsi on-line')->first();
-        $upgrade = Card::where('nome', 'UPGRADE')->first();
-        $pekit = Card::where('nome', 'PEKIT')->first();
+        return view('admin.storage.index', compact('notification', 'tokens', 'token_operations'));
 
-        $tot = Eicardcode::count();
-        $eicard_code_attivi = count(Eicardcode::where('attivo', '1')->get());
-        $concodice = Eicardcode::count('codice');
+        // $temp_card = Card::where('nome', $data['nome'])->first();
+
+        // $card = Card::find($temp_card->id);
+
+        // $card->quantita = $data['quantita'];
+        // $card->costo = $data['costo'];
+        // $card->save();
+
+
+        // Logcard::create([
+        //     'card_id' => $card->id,
+        //     'quantita' => $data['quantita'],
+        //     'operatore' => Auth::user()->id,
+        //     'costo' => $data['costo'],
+
+        // ]);
+        // $logcards = Logcard::all();
+        // $cards = Card::all();
+
+        // $notification = array(
+        //     'message' => 'Dati inseriti con successo!',
+        //     'alert-type' => 'success'
+        // );
+        // if ($card->nome == 'EICARD') {
+        //     $i = 1;
+        //     $qta = $card->quantita;
+        //     while ($i <= $data['quantita']) :
+        //         Eicardcode::create([
+        //             'attivo' => '1',
+        //         ]);
+        //         $i++;
+        //     endwhile;
+        // }
+        // $eipass = Card::where('nome', 'Eipass Corsi on-line')->first();
+        // $upgrade = Card::where('nome', 'UPGRADE')->first();
+        // $pekit = Card::where('nome', 'PEKIT')->first();
+
+        // $tot = Eicardcode::count();
+        // $eicard_code_attivi = count(Eicardcode::where('attivo', '1')->get());
+        // $concodice = Eicardcode::count('codice');
         return view('admin.magazzino.index', compact('notification', 'logcards', 'cards', 'eicard_code_attivi', 'tot', 'concodice', 'eipass', 'upgrade', 'pekit'));
         // return back()->with($notification);
     }

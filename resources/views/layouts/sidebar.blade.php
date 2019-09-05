@@ -57,7 +57,11 @@
 
                         </li>
                          <li>
-                            <a class=" waves-effect waves-dark" href="{{route('storage.index')}}" aria-expanded="false"><i class="mdi  mdi-buffer"></i><span class="hide-menu">Magazzino</span></a>
+                            <a class=" waves-effect waves-dark" href="{{route('magazzino.index')}}" aria-expanded="false"><i class="mdi  mdi-buffer"></i><span class="hide-menu">Magazzino</span></a>
+
+                        </li>
+                         <li>
+                            <a class=" waves-effect waves-dark" href="{{route('storage.index')}}" aria-expanded="false"><i class="mdi  mdi-buffer"></i><span class="hide-menu">Storage</span></a>
 
                         </li>
                           <li>
