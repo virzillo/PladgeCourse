@@ -23,69 +23,37 @@
                         <h6 class="card-subtitle">info aggiuntive
                             <code>da aggiungere</code></h6>
                         {{-- <a class="popup-youtube btn btn-danger" href="">Nuova Offerta</a> --}}
-                          <button type="button" name="create_record" id="create_record" class="btn btn-danger">Create Record</button>
 
-                            <form method="post" id="sample_form" class="form-horizontal" enctype="multipart/form-data">
+                            <form method="post" id="samplse_form" class="form-horizontal" enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-group">
+                               
                                     <div class="row form-group">
                                         <div class="col-lg-9">
                                             <label for="s">Seleziona cliente:</label>
-                                            <select name="company_id" id="company_id" class="form-control">
+
+                                            <select  id="selectj1" name="customer" class="selectclient search_cliente form-control">
                                                 @foreach ($customers as $customer)
                                                 <option value="{{$customer->id}}">{{$customer->nome}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-lg-3">
-                                                <a href="#" data-toggle="modal" data-target="#crea-company"
+                                                {{-- <a href="#" data-toggle="modal" data-target="#crea-company"
                                                     class="btn waves-effect waves-light btn-rounded btn-primary justify-content-end"> <i
-                                                        class="ti-plus text" aria-hidden="true"></i></a>
+                                                        class="ti-plus text" aria-hidden="true"></i></a> --}}
 
                                         </div>
                                     </div>
-                                  <div class="form-group col-8  mb-2 file-repeater">
-                                              
-                                                <div data-repeater-list="repeater-list">
-                                                <div data-repeater-item>
-                                                    <div class="row mb-1">
-                                                    <div class="col-9 col-xl-10">
-                                                        <label class="file center-block">Seleziona Corso:
-                                                         <select name="course" id="course" class="form-control">
-                                                            <option value="" disabled>seleziona  corso</option>
-                                                            @foreach ($courses as $course)
-                                                                <option value="{{$course->id}}" id="val">{{$course->nome}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        <span class="file-custom"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-2 col-xl-1">
-                                                        <button type="button" data-repeater-delete class="btn btn-icon btn-danger mr-1"><i class="ft-x"></i></button>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                                <button type="button" data-repeater-create class="btn btn-primary">
-                                                <i class="icon-plus4"></i>Aggiungi corso
-                                                </button>
-                                            </div>
+                                        <div class="form-group col-8  ">
+                                            <select  name="course" id="selectj2"  class=" search_corso form-control">
+                                                  <option value="" disabled>seleziona  corso</option>
+                                                    @foreach ($cards as $course)
+                                                        <option value="{{$course->id}}" id="val">{{$course->nome}}</option>
+                                                    @endforeach
+                                            </select>
+                                        </div>
                                    
-                                    <div class="form-group">
-                                        <input type="textarea" name="test" id="test">
-                                        <select name="type" id="car_models" class="form-control">
-                                            <option value="" disabled>seleziona  modulo</option>
-                                         
-                                        </select>
-                                    </div>
-                                 
-
-                                <br />
-                                <div class="form-group" align="right">
-                                <input type="hidden" name="action" id="action" />
-                                <input type="hidden" name="hidden_id" id="hidden_id" />
-                                <input type="submit" name="action_button" id="action_button" class="btn btn-warning" value="" />
-                                </div>
+                                  
                             </form>
                     </div>
                     <div class="col-md-6">
@@ -93,17 +61,19 @@
                         <h6 class="card-subtitle"></h6>
 
                         <table border='1' id='userTable' style='border-collapse: collapse;'>
-       <thead>
-        <tr>
-          <th>S.no</th>
-          <th>Username</th>
-          <th>Name</th>
-          <th>Email</th>
-        </tr>
-       </thead>
-       <tbody></tbody>
-     </table>
+                            <thead>
+                                <tr>
+                                <th>S.no</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -112,103 +82,59 @@
 
 
 
-<div id="formModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-     <div class="modal-content">
-      <div class="modal-header">
-             <h4 class="modal-title">Add New Record</h4>
-             <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-           </div>
-           <div class="modal-body">
-            <span id="form_result"></span>
-            <form method="post" id="sample_form" class="form-horizontal" enctype="multipart/form-data">
-             @csrf
-             <div class="form-group">
-                    <input id="name" type="text" class="form-control"
-                        name="name"  required autocomplete="name" autofocus
-                        placeholder="Nome">
-
-                </div>
-                <div class="form-group">
-                    <input id="email" type="email" class="form-control"
-                        name="email" required autocomplete="email" placeholder="Email">
-
-                </div>
-                <div class="form-group">
-                    <select name="active" id="active" class="form-control">
-                        <option value="" disabled>seleziona stato</option>
-                        <option value="1">Attivo</option>
-                        <option value="0">Inttivo</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select name="type" id="type" class="form-control">
-                        <option value="" disabled>seleziona tipo cliente</option>
-                        <option value="1">Cliente</option>
-                        <option value="0">Potenziale</option>
-                    </select>
-                </div>
-                <div class="row form-group">
-                    <div class="col-lg-9">
-                        <select name="company_id" id="company_id" class="form-control">
-                            @foreach ($customers as $customer)
-                            <option value="{{$customer->id}}">{{$customer->nome}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-lg-3">
-                            <a href="#" data-toggle="modal" data-target="#crea-company"
-                                class="btn waves-effect waves-light btn-rounded btn-primary justify-content-end"> <i
-                                    class="ti-plus text" aria-hidden="true"></i></a>
-
-                            </div>
-                </div>
-
-              <br />
-              <div class="form-group" align="right">
-               <input type="hidden" name="action" id="action" />
-               <input type="hidden" name="hidden_id" id="hidden_id" />
-               <input type="submit" name="action_button" id="action_button" class="btn btn-warning" value="" />
-              </div>
-            </form>
-           </div>
-        </div>
-       </div>
-</div>
 
 
 @endsection
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
- <script src="/assets/plugins/forms/repeater/jquery.repeater.min.js"
-  type="text/javascript"></script>
+
 
 @push('script')
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+
+
+<script type="text/javascript">
+
+
+$(document).ready(function() {
+		$('.selectclient').select2();
+});
+
+
+
+
+        $('.search_utente').on('keyup',function(){
+            $value=$(this).val();
+            $.ajax({
+            type : 'get',
+            url: "{{ route('proposal.search') }}",
+            data:{'search':$value},
+            success:function(data){
+            $('tbody').html(data);
+            }
+            });
+        })
+
+         $('.search_corso').on('keyup',function(){
+            $value=$(this).val();
+            $.ajax({
+            type : 'get',
+            url: "{{ route('proposal.search_corso') }}",
+            data:{'search':$value},
+            success:function(data){
+            $('tbody').html(data);
+            }
+            });
+        })
+
+</script>
+<script type="text/javascript">
+$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+</script>
+
 <script>
-
-    (function(window, document, $) {
-	'use strict';
-
-	// Default
-	$('.repeater-default').repeater();
-
-	// Custom Show / Hide Configurations
-	$('.file-repeater, .contact-repeater').repeater({
-		show: function () {
-			$(this).slideDown();
-		},
-		hide: function(remove) {
-			if (confirm('Are you sure you want to remove this item?')) {
-				$(this).slideUp(remove);
-			}
-		}
-	});
-
-
-})(window, document, jQuery);
-
-
 
 
     $(document).ready(function(){

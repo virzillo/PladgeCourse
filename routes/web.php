@@ -17,7 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/search', 'ProposalController@search')->name('proposal.search');
+Route::get('/search_corso', 'ProposalController@search_corso')->name('proposal.search_corso');
 
 // Route::post('ajax-crud/update', 'AjaxCrudController@update')->name('ajax-crud.update');
 

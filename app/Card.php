@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Course;
 use App\Logcard;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,5 +13,10 @@ class Card extends Model
     public function logcards()
     {
         return $this->hasMany(Logcard::class);
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
     }
 }

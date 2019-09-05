@@ -11,32 +11,63 @@
 ] )
 
 <!-- Row -->
-
+@include('widgets.errors')
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Aggiungi Corso</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="myBtn"> <span
                         aria-hidden="true">×</span> </button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('courses.store') }}" method="POST">
                     @csrf
-                    <div class="form-group">
-                        <label>Nome</label>
-                        <input type="text" class="form-control" name="nome"> </div>
-                    <div class="form-group">
-                        <label>Descrizione</label>
-                        <textarea class="form-control" name="descrizione"> </textarea>
-
+                        <div class="form-group">
+                        <label>Assegna Categoria</label>
+                            <select name="card_id" id="card_id" class="form-control">
+                                <option value="" disabled>seleziona categoria</option>
+                                @foreach ($cards as $card)
+                                <option value="{{$card->id}}">{{$card->nome}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    
+                     <div class="form-group m-b-0" >
+                        <label>Seleziona tipo corso</label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <select name="tipo" id="tipo" class="form-control">
+                                {{-- <option value="" disabled>seleziona tipo corso</option> --}}
+                                <option value="online">online</option>
+                                <option value="insede">insede</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-success" id="pulsante">scegli</button>
+                        </div>
+                    </div>
+                    <div class="form-group" id="divnome" >
+                        <label>Nome</label>
+                        <input type="text" class="form-control" name="nome"> 
+                    </div>
+                    <div class="form-group" id="divdescrizione" >
+                        <label>Descrizione</label>
+                        <textarea class="form-control" name="descrizione" > </textarea>
+                    </div>
+                    <div class="form-group" id="diviscrizione" >
                         <label>Importo Iscrizione</label>
-                        <input type="text" class="form-control" name="costo"> </div>
-                    <div class="form-group">
-                        <label>Importo Esame</label>
-                        <input type="text" class="form-control" name="esame"> </div>
+                        <input type="number" class="form-control" name="iscrizione" > 
+                    </div>
+                    <div class="form-group"  id="divesami" >
+                        <label>Esami</label>
+                        <input type="number" class="form-control" name="esami" id="esami" > 
+                    </div>
+                    <div class="form-group" id="divcosto"  >
+                        <label>Importo Esami</label>
+                        <input type="number" class="form-control" name="costo" id="costo"> 
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
@@ -60,13 +91,15 @@
 
                 <h4 class="card-title">Elenco corsi</h4>
                 <div class="table-responsive m-t-20">
-                    <table class="table stylish-table">
+                    <table class="table stylish-table" id="myTable">
                         <thead>
                             <tr>
-                                <th >Nome</th>
+                                <th>Tipo</th>
+                                <th>Nome</th>
                                 <th>Descrizione</th>
                                 <th>Iscrizione</th>
-                                <th>Esame</th>
+                                <th>Esami</th>
+                                <th>Costo</th>
                                 <th>#</th>
 
                             </tr>
@@ -74,13 +107,17 @@
                         <tbody>
                             @foreach ($courses as $course)
                             <tr class="">
-
-                                <td>
-                                    <h6>{{$course->nome}}</h6>
-                                </td>
+                                    <td>@if ($course->tipo=='insede')
+                                        <span class="label label-info">{{$course->tipo}}</span>
+                                        @else
+                                        <span class="label label-warning">{{$course->tipo}}</span>
+                                    @endif
+                                    </td>
+                                <td><h6>{{$course->nome}}</h6></td>
                                 <td>{{$course->descrizione}}</td>
-                                <td><span class="label label-info">{{$course->costo}} €</span></td>
-                                <td><span class="label label-success">{{$course->esame}} €</span></td>
+                                <td><span class="label label-info">{{$course->iscrizione}} €</span></td>
+                                <td>{{$course->esami}}</td>
+                                <td><span class="label label-success">{{$course->costo}} €</span></td>
                                 <td>
                                     <div class="button-group" style="display:flex;">
                                         <a href="{{route('courses.edit',$course->id)}}"
@@ -115,6 +152,9 @@
                     @csrf
                     @method('PATCH')
                     <div class="form-group">
+                        <label>Tipo</label>
+                        <input type="text" class="form-control" name="costo" value=" {{$corso->tipo}}"></div>
+                    <div class="form-group">
                         <label>Nome</label>
                         <input type="text" class="form-control" name="nome" value="{{$corso->nome}}"> </div>
                     <div class="form-group">
@@ -140,6 +180,12 @@
 
 
 </div>
+<style>
+.nascondi{
+    display:none;
+}
+
+</style>
 
 @endsection
 
@@ -158,16 +204,58 @@
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
 <!-- end - This is for export functionality only -->
 <script>
+
+        $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var modal = $(this);
+            modal.find('.modal-title').text('Creazione Corso ');
+            $('#divnome').addClass('nascondi');
+            $('#divdescrizione').addClass('nascondi');
+            $('#diviscrizione').addClass('nascondi');
+            $('#divesami').addClass('nascondi');
+            $('#divcosto').addClass('nascondi'); 
+        });
+
+
+
+        $('#pulsante').click(function(){
+            if ($('#tipo').val()=="online") {
+                console.log('online');
+                $('#divnome').removeClass('nascondi');
+                $('#divdescrizione').removeClass('nascondi');
+                $('#diviscrizione').removeClass('nascondi');
+                $('#divesami').addClass('nascondi');
+                $('#divcosto').addClass('nascondi');
+            } else {
+                console.log('insede');
+                $('#divnome').removeClass('nascondi');
+                $('#divdescrizione').removeClass('nascondi');
+                $('#diviscrizione').removeClass('nascondi');
+                $('#divesami').removeClass('nascondi');
+                $('#divcosto').removeClass('nascondi');
+            }
+         });
+
+
     $(document).ready(function () {
 
         $('#myTable').DataTable({
-
             "displayLength": 10,
             "order": [
                 [0, 'asc']
             ],
-
         });
+
+              
+        
+        // $('#create_record').click(function(){
+        //     $('.modal-title').text("Add New Record");
+        //         $('#action_button').val("Add");
+        //         $('#action').val("Add");
+        //         $('#formModal').modal('show');
+        //     });
+
+
     });
 
     function ConfirmDelete() {

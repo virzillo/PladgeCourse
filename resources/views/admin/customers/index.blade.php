@@ -153,7 +153,10 @@
 
 
     @include('admin.customers.createform')
+    @if (!empty($customer) )
     @include('admin.customers.modaledit')
+        
+    @endif
 
 @endsection
 

@@ -15,11 +15,15 @@ class CreateCoursesTable extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+
+
+            $table->enum('tipo', ['insede', 'online'])->nullable();
             $table->string('nome');
             $table->string('descrizione')->nullable();
-            $table->string('image')->nullable();
-            $table->float('costo');
-            $table->float('esame');
+            $table->float('iscrizione')->nullable();
+            $table->integer('esami')->nullable();
+            $table->float('costo')->nullable();
 
             $table->timestamps();
         });

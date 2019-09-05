@@ -65,7 +65,7 @@
 
                         </li>
                           <li>
-                            <a class=" waves-effect waves-dark" href="{{route('proposal.index')}}" aria-expanded="false"><i class="mdi  mdi-chart-line"></i><span class="hide-menu">Offerte</span></a>
+                            <a class=" waves-effect waves-dark" href="{{route('proposal.index')}}" aria-expanded="false"><i class="mdi  mdi-chart-line"></i><span class="hide-menu">Proposte</span></a>
 
                         </li>
                         <li>

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Card;
 use App\Course;
 use App\Module;
+use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
@@ -19,8 +20,9 @@ class CourseController extends Controller
     {
         $courses = Course::all();
         $modules = Module::all();
+        $cards = Card::all();
 
-        return view('admin.courses.index', compact('courses', 'modules'));
+        return view('admin.courses.index', compact('courses', 'modules', 'cards'));
     }
 
     public function show($id)
@@ -39,8 +41,10 @@ class CourseController extends Controller
     {
         $corso = Course::find($id);
         $courses = Course::all();
+        $cards = Card::all();
+
         $modules = Module::where('course_id', $id)->get();
-        return view('admin.courses.index', compact('corso', 'courses', 'modules'));
+        return view('admin.courses.index', compact('corso', 'courses', 'modules', 'cards'));
     }
     public function update(Request $request, $id)
     {
@@ -69,16 +73,38 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validateRequest();
 
-        Course::create($this->validateRequest());
+        // if ($request['tipo'] == 'online') {
+        //     Course::create([
+        //         'tipo' => $request['tipo'],
+        //         'nome' => $request['nome'],
+        //         'descrizione' => $request['descrizione'],
+        //         'iscrizione' => $request['iscrizione'],
+        //     ]);
+        // } else {
+        //     Course::create([
+        //         'tipo' => $request['tipo'],
+        //         'nome' => $request['nome'],
+        //         'descrizione' => $request['descrizione'],
+        //         'iscrizione' => $request['iscrizione'],
+        //         'esami' => $request['esami'],
+        //         'costo' => $request['costo'],
+        //     ]);
+        // }
+        Course::create($request->all());
+
+
         $notification = array(
             'message' => 'Corso inserito con successo!',
             'alert-type' => 'success'
         );
         $courses = Course::all();
         $modules = Module::all();
+        $cards = Card::all();
 
-        return view('admin.courses.index', compact('courses', 'modules', 'notification'));
+
+        return view('admin.courses.index', compact('courses', 'modules', 'notification', 'cards'));
     }
 
 
@@ -88,8 +114,11 @@ class CourseController extends Controller
 
         return  request()->validate([
             'nome' => 'required|min:2',
-            'costo' => 'required',
-            'esame' => 'required',
+            'tipo' => 'required',
+            'descrizione' => 'min:1',
+            'costo' => '',
+            'iscrizione' => '',
+            'esami' => '',
 
         ]);
     }

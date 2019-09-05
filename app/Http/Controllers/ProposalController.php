@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Card;
 use App\Course;
 use App\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProposalController extends Controller
 {
@@ -23,7 +25,45 @@ class ProposalController extends Controller
     {
         $customers = Customer::all();
         $courses = Course::all();
-        return view('admin.offerte.index', compact('customers', 'courses'));
+        $cards = Card::all();
+
+        return view('admin.offerte.index', compact('customers', 'courses', 'cards'));
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = "";
+            $courses = DB::table('customers')->where('nome', 'LIKE', '%' . $request->search . "%")->get();
+            if ($courses) {
+                foreach ($courses as $key => $cors) {
+                    $output .= '<tr>' .
+                        '<td>' . $cors->id . '</td>' .
+                        '<td>' . $cors->nome . '</td>' .
+                        '<td>' . $cors->cognome . '</td>' .
+                        '<td>' . $cors->email . '</td>' .
+                        '</tr>';
+                }
+                return Response($output);
+            }
+        }
+    }
+
+    public function search_corso(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = "";
+            $products = DB::table('courses')->where('nome', 'LIKE', '%' . $request->search . "%")->get();
+            if ($products) {
+                foreach ($products as $key => $product) {
+                    $output .= '<tr>' .
+                        '<td>' . $product->id . '</td>' .
+                        '<td>' . $product->nome . '</td>' .
+                        '</tr>';
+                }
+                return Response($output);
+            }
+        }
     }
 
     /**

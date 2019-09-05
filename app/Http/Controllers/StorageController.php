@@ -28,10 +28,14 @@ class StorageController extends Controller
         $logcards = Logcard::all();
         $tot = Eicardcode::count();
         $eicard_code_attivi = count(Eicardcode::where('attivo', '1')->get());
+        $eipass = Card::where('nome', 'Eipass Corsi on-line')->first();
+        $upgrade = Card::where('nome', 'UPGRADE')->first();
+        $pekit = Card::where('nome', 'PEKIT')->first();
+
         $concodice = Eicardcode::count('codice');
         // dd($eicard_code_attivi);
         // dd($eicard_code_attivi);
-        return view('admin.magazzino.index', compact('cards', 'logcards', 'eicard_code_attivi', 'concodice', 'tot'));
+        return view('admin.magazzino.index', compact('cards', 'logcards', 'eicard_code_attivi', 'concodice', 'tot', 'eipass', 'upgrade', 'pekit'));
     }
 
     /**
@@ -52,6 +56,24 @@ class StorageController extends Controller
      */
     public function store(Request $request)
     {
+
+        // if (request()->ajax()) {
+
+        //     $data = request()->validate([
+        //         'nome' => 'required|max:255',
+        //         'quantita' => 'required',
+        //         'costo' => 'required',
+        //     ]);
+        //     $temp_card = Card::where('nome', $data['nome'])->first();
+
+        //     $card = Card::find($temp_card->id);
+
+        //     $card->quantita = $data['quantita'];
+        //     $card->costo = $data['costo'];
+        //     $card->save();
+
+        //     return response()->json(['data' => $card]);
+        // }
         // $validator = Validator::make($request->all(), [
         //     'nome' => 'required|max:255',
         //     'quantita' => 'required',
@@ -72,10 +94,8 @@ class StorageController extends Controller
 
         $card = Card::find($temp_card->id);
 
-        $card->nome = $request->get('nome');
-        $card->quantita = $request->get('quantita');
-        $card->costo = $request->get('costo');
-
+        $card->quantita = $data['quantita'];
+        $card->costo = $data['costo'];
         $card->save();
 
 
@@ -103,10 +123,14 @@ class StorageController extends Controller
                 $i++;
             endwhile;
         }
+        $eipass = Card::where('nome', 'Eipass Corsi on-line')->first();
+        $upgrade = Card::where('nome', 'UPGRADE')->first();
+        $pekit = Card::where('nome', 'PEKIT')->first();
+
         $tot = Eicardcode::count();
         $eicard_code_attivi = count(Eicardcode::where('attivo', '1')->get());
         $concodice = Eicardcode::count('codice');
-        return view('admin.magazzino.index', compact('notification', 'logcards', 'cards', 'eicard_code_attivi', 'tot', 'concodice'));
+        return view('admin.magazzino.index', compact('notification', 'logcards', 'cards', 'eicard_code_attivi', 'tot', 'concodice', 'eipass', 'upgrade', 'pekit'));
         // return back()->with($notification);
     }
 
