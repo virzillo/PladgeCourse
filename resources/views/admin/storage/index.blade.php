@@ -7,7 +7,7 @@
     'titolo' => 'Storage',
     'posizione' => 'Storage',
     'pulsante' => ' '
-    
+
     ] )
 @push('style')
 
@@ -17,7 +17,7 @@
 
 
 <div class="row">
-  
+
 
     @foreach ($tokens as $token)
         <div class="col-lg-4 col-md-12">
@@ -29,7 +29,7 @@
                     <div class="message-box contact-box">
                         <h2 class="add-ct-btn">
                             <button type="button"  data-toggle="modal" data-target="#add" id="addbtn" data-id="{{$token->id}}" data-nome="{{$token->nome}}" class="btn  btn-success waves-effect waves-dark">add</button>
-                           
+
                             {{-- <button type="button" data-toggle="modal" data-target="#vediTab"  class="btn  btn-primary waves-effect waves-dark">show</button> --}}
                         </h2>
                         <div class="message-widget contact-widget">
@@ -44,14 +44,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           
-                                              
-                                                <tr>
-                                                    <td id="ta">{{$token->quantita}}</td>
-                                                    <td id="tb">0</td>
-                                                    <td><span class="label label-danger">5</span> </td>
-                                                </tr> 
-                                    
+                                            <tr>
+                                                <td id="ta">{{$token->quantita}}</td>
+                                                <td id="tb">0</td>
+                                                <td><span class="label label-danger">5</span> </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -99,8 +96,8 @@
                                         <td>{{$item->totale}} €</td>
                                         <td>{{$item->user->name}}</td>
                                         <td>{{$item->created_at->format('d/m/Y')}}</td>
-                                       <td> <button type="button" data-toggle="modal"  data-target="#edit" id="editbtn" 
-                                        data-id="{{$item->id}}" data-quantita="{{$item->quantita}}"  data-costo="{{$item->costo}}" 
+                                       <td> <button type="button" data-toggle="modal"  data-target="#edit" id="editbtn"
+                                        data-id="{{$item->id}}" data-quantita="{{$item->quantita}}"  data-costo="{{$item->costo}}"
                                         class="btn btn-danger  waves-effect waves-dark">edit</button></td>
                                     </tr>
                                 @endforeach
@@ -142,7 +139,7 @@
                                         @endforeach
                                     </select>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="recipient-name" class="control-label">Seleziona quantità:</label>
                                 <input type="number" class="form-control"  name="quantita">
@@ -152,7 +149,7 @@
                                 <input type="text" class="form-control" name="costo">
                             </div>
                     </div>
-                   
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
                         <input type="submit" name="action_button" id="action_button" class="btn btn-primary" value="Add" />
@@ -176,7 +173,7 @@
                                 @csrf
                                 @method('PATCH')
                             <input type="hidden" class="form-control" id="editid" name="id">
-                            
+
                             <div class="form-group">
                                 <label for="recipient-name" class="control-label">Seleziona quantità:</label>
                                 <input type="number" class="form-control " id="editquantita" name="quantita" >
@@ -208,7 +205,7 @@
     // inserimento da tabella
     $('#addTab').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
-       
+
         var modal = $(this)
         modal.find('.modal-title').text('New message to ' + nome)
 
@@ -234,7 +231,7 @@
         var button = $(event.relatedTarget) // Button that triggered the modal
         var id = button.data('id')
         var nome = button.data('nome')
-       
+
         var modal = $(this)
         modal.find('.modal-title').text('New message to ' + nome)
         $('#id').val(id)
@@ -247,7 +244,7 @@
 @endpush
 
 @push('datatables')
-  
+
        <!-- This is data table -->
     <script src="{{url('/')}}/assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <!-- start - This is for export functionality only -->

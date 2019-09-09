@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Card;
 use App\Token;
+use App\Transaction;
 use App\Logcard;
 use App\Eicardcode;
 use App\Tokenlog;
@@ -64,26 +65,6 @@ class StorageController extends Controller
     {
 
 
-        // $data = request()->validate([
-        //     'id' => 'required|max:255',
-        //     'quantita' => 'required',
-        //     'costo' => 'required',
-        // ]);
-
-        // Token_Operation::create([
-        //     'token_id' => $data['id'],
-        //     'quantita' => $data['quantita'],
-        //     'costo' => $data['costo'],
-        // ]);
-        // $tokens = Token::all();
-        // $token_operations = Token_Operation::all();
-
-        // $notification = array(
-        //     'message' => 'Dati inseriti con successo!',
-        //     'alert-type' => 'success'
-        // );
-        // return view('admin.storage.index', compact('notification', 'tokens', 'token_operations'));
-
         $data = request()->validate([
             // 'id' => 'required|max:255',
             'nome' => 'required|max:255',
@@ -104,7 +85,6 @@ class StorageController extends Controller
         $token->save();
 
 
-
         Tokenlog::create([
             'token_id' => $token->id,
             'quantita' => $data['quantita'],
@@ -112,6 +92,17 @@ class StorageController extends Controller
             'costo' =>  $data['costo'],
             'tipomovimento' => 'out',
             'totale' =>  $totale_costo_inserimento,
+
+        ]);
+
+        Transaction::create([
+            'nome' => 'Inserimento Token',
+            'descrizione' => 'Inserimento magazzino di : ' . $data['nome'],
+            'cifra' => $totale_costo_inserimento ,
+            'tipo' => 'out',
+            'ricorrente' => '0',
+
+            'operatore' => Auth::user()->id,
 
         ]);
 
@@ -208,6 +199,55 @@ class StorageController extends Controller
         $token_logs = Tokenlog::find($id);
         $token_logs->quantita = $data['quantita'];
         $token_logs->costo = $data['costo'];
+
+        $totale_nuovo = $data['quantita']*$data['costo'];
+
+        if ($totale_nuovo < $token_logs->totale){
+
+            $differenza = $token_logs->totale - $totale_nuovo;
+            $token_logs->totale = $totale_nuovo;
+            dump($differenza);
+            dump($token_logs->totale);
+
+            Transaction::create([
+                'nome' => 'Correzione magazzino',
+                'descrizione' => 'Correzione magazzino su : ' . $token_logs->token->nome,
+                'cifra' => $differenza,
+                'tipo' => 'in',
+                'ricorrente' => '0',
+
+                'operatore' => Auth::user()->id,
+
+            ]);
+            //scrivere log operazioni magazzino
+
+
+        }elseif ($totale_nuovo > $token_logs->totale){
+            $differenza =  $totale_nuovo - $token_logs->totale;
+            $token_logs->totale = $totale_nuovo;
+            dump($differenza);
+            dump($token_logs->totale);
+
+            Transaction::create([
+                'nome' => 'Correzione magazzino',
+                'descrizione' => 'Correzione magazzino su : '. $token_logs->token->nome,
+                'cifra' => $differenza,
+                'tipo' => 'out',
+                'ricorrente' => '0',
+
+                'operatore' => Auth::user()->id,
+
+            ]);
+            //scrivere log operazioni magazzino
+
+
+        }else{
+            dump('uguale');
+
+            //scrivere log operazioni magazzino
+
+        }
+        // dd($token_logs->totale);
 
         $token_logs->save();
 

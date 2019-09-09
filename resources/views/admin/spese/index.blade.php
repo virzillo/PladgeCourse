@@ -78,7 +78,7 @@
                                     <thead>
                                         <tr>
                                             <th>Totali</th>
-                                            
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,7 +128,7 @@
                              <td>{{$item->nome}}</td>
                             <td>{{$item->descrizione}}</td>
 
-                            <td>{{$item->created_at->format('d/m/y')}}</td>
+                            <td>{{$item->created_at->format('d/m/y H:i:s')}}</td>
                             <td>{{$item->cifra}}</td>
                             <td>{!! $item->ricorrente !!}</td>
                             <td>{{$item->tipo}}</td>
@@ -185,7 +185,7 @@
                                <label for="spese-name" class="control-label">Data Scadenza:</label>
                                 <input type="date" class="form-control" id="data" name="data" required>
                             </div> --}}
-                  
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
@@ -231,7 +231,7 @@
                                <label for="spese-name" class="control-label">Data Scadenza:</label>
                                 <input type="date" class="form-control" id="data" name="data" required>
                             </div> --}}
-                  
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
