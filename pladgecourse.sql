@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Set 02, 2019 alle 15:07
+-- Creato il: Set 09, 2019 alle 14:04
 -- Versione del server: 10.1.37-MariaDB
 -- Versione PHP: 7.2.12
 
@@ -32,8 +32,8 @@ CREATE TABLE `cards` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nome` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descrizione` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `quantita` int(11) DEFAULT NULL,
-  `costo` double(8,2) DEFAULT NULL,
+  `quantita` int(11) DEFAULT '0',
+  `costo` double(8,2) DEFAULT '0.00',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -43,10 +43,16 @@ CREATE TABLE `cards` (
 --
 
 INSERT INTO `cards` (`id`, `nome`, `descrizione`, `quantita`, `costo`, `created_at`, `updated_at`) VALUES
-(1, 'EICARD', NULL, 10, 50.00, '2019-08-30 14:30:46', '2019-08-30 14:32:50'),
-(2, 'PEKIT', NULL, 20, 50.00, '2019-08-30 14:31:04', '2019-08-30 14:35:23'),
-(3, 'INGLESE', NULL, 20, 40.00, '2019-08-30 14:31:15', '2019-08-30 14:35:34'),
-(4, 'UPGRADE', NULL, NULL, NULL, '2019-09-01 10:58:10', '2019-09-01 10:58:10');
+(1, 'Ei-Token EIPASS Unica', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(2, 'Eipass Corsi on-line', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(3, 'UPGRADE', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(4, 'PEKIT', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(5, 'Inglese Token A1', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(6, 'Inglese Token A2', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(7, 'Inglese Token B1', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(8, 'Inglese Token B2', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(9, 'Inglese Token C1', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(10, 'Inglese Token C2', NULL, 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40');
 
 -- --------------------------------------------------------
 
@@ -62,13 +68,6 @@ CREATE TABLE `companies` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dump dei dati per la tabella `companies`
---
-
-INSERT INTO `companies` (`id`, `name`, `phone`, `created_at`, `updated_at`) VALUES
-(1, 're', 'ert', '2019-09-01 07:33:12', '2019-09-01 07:33:12');
-
 -- --------------------------------------------------------
 
 --
@@ -77,23 +76,15 @@ INSERT INTO `companies` (`id`, `name`, `phone`, `created_at`, `updated_at`) VALU
 
 CREATE TABLE `courses` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `tipo` enum('insede','online') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nome` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descrizione` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `esame` text COLLATE utf8mb4_unicode_ci,
-  `costo` double(8,2) NOT NULL,
-  `iscrizione` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `iscrizione` double(8,2) DEFAULT NULL,
+  `esami` int(11) DEFAULT NULL,
+  `costo` double(8,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dump dei dati per la tabella `courses`
---
-
-INSERT INTO `courses` (`id`, `nome`, `descrizione`, `esame`, `costo`, `iscrizione`, `created_at`, `updated_at`) VALUES
-(9, 'INGLESE', NULL, '300', 50.00, NULL, '2019-08-31 10:52:47', '2019-09-02 09:23:39'),
-(11, 'EIPASS 7 MODULI', NULL, '180', 120.00, NULL, '2019-08-31 12:33:36', '2019-09-02 09:54:38'),
-(12, 'CAD', NULL, NULL, 75.00, NULL, '2019-09-01 11:01:31', '2019-09-01 11:01:31');
 
 -- --------------------------------------------------------
 
@@ -132,9 +123,26 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `nome`, `cognome`, `sesso`, `codfiscale`, `telefono`, `cellulare`, `email`, `password`, `citta`, `data`, `provincia`, `indirizzo`, `cittadom`, `provinciadom`, `cap`, `titolostudio`, `occupazione`, `active`, `type`, `creator`, `created_at`, `updated_at`) VALUES
-(1, 'Luca', 'Egidio', 'maschio', 'bnpsnl86t27h501n', '3339285000', '3339285000', 'luca@egi.it', 'Vrz021281', 'Andria', '2019-08-27', 'bo', 'Viale Trentino, 47', 'Bellizzi', 'bn', '84092', 'informatico', 'grafico pubblicitario', '1', '0', '1', '2019-08-31 09:39:36', '2019-09-01 11:01:10'),
-(2, 'VIEVI S.A.S.DI', 'RICCARDO', 'maschio', 'vrgrcr81t02a285q', '3339285000', '3775347151', 'virzillo@hotmail.com', 'password', 'Andria', '2019-08-06', 'bt', 'VIA BARLETTA 115', 'ANDRIA', 'bt', '76123', 'informatico', 'programmatore', '1', '0', '1', '2019-08-31 12:36:59', '2019-08-31 12:36:59'),
-(3, 'Luca', 'Egidio', 'maschio', 'bnpsnl86t27h501n', '3339285000', '3339285000', 'luca@egi.it', 'Vrz021281', 'Andria', '2019-08-27', 'bo', 'Viale Trentino, 47', 'Bellizzi', 'sa', '84092', 'informatico', 'grafico pubblicitario', '1', '0', '1', '2019-09-01 11:00:34', '2019-09-01 11:00:34');
+(1, 'Dr. Cameron Dare Jr.', 'Kuhlman', 'maschio', 'eligendi', '220.831.2396', '+1.309.327.2394', 'ullrich.casper@example.com', 'z\\<3U#e8kY', 'South Berneicemouth', '2011-12-05', 'DE', '62664 McKenzie Spring Apt. 952', 'Port Eldridgefort', 'NC', '47422', 'odit', 'cum', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:38'),
+(2, 'Norma Kulas', 'Abbott', 'maschio', 'et', '605-890-4510 x675', '+1-965-753-5685', 'keeling.adan@example.com', 'v}v6:42', 'Janyborough', '1996-10-28', 'CA', '53908 Iliana Knoll', 'Goldnerville', 'AR', '17800', 'distinctio', 'velit', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:38'),
+(3, 'Dean Green DVM', 'Quigley', 'maschio', 'quos', '243-284-0927 x4767', '373-984-3609', 'swisozk@example.net', 'h\',iXE}s=505}@6#A{', 'Kaelynburgh', '1990-01-06', 'KY', '5910 Bradtke Junctions', 'North Nella', 'IA', '38125', 'et', 'laboriosam', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:38'),
+(4, 'Prof. Erick Dicki', 'Kozey', 'maschio', 'et', '1-674-477-5827', '(543) 818-9123 x0268', 'fritsch.elliott@example.com', 'p%!2p8<9\'rHs/7+=cs', 'North Linnie', '1971-12-21', 'WY', '6883 Wilfredo Mountains', 'New Treva', 'DE', '36245-6072', 'officia', 'eum', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(5, 'Delilah Ankunding', 'Roberts', 'maschio', 'sit', '763.342.1060', '1-257-259-0394 x60265', 'johnson.hope@example.com', 'Qdy_l\"9h9)N', 'Bartolettishire', '2002-11-14', 'OH', '37450 Stanton Street Suite 008', 'West Hillard', 'OR', '81103', 'enim', 'dolorum', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(6, 'Enrique Bednar PhD', 'Wunsch', 'maschio', 'veritatis', '+1 (656) 937-6511', '998-234-4209', 'heaney.elna@example.net', '/]N2SrKh0L67bG', 'Starkburgh', '2009-10-29', 'VA', '54430 Lavon Gardens Suite 934', 'South Norwoodville', 'UT', '55177-9003', 'ut', 'optio', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(7, 'Prof. Devon Grant DDS', 'Monahan', 'maschio', 'voluptas', '1-961-282-1346', '789.677.5028 x9478', 'sterling.langosh@example.com', 'dVs62ggM&sZEx', 'Port Justicehaven', '1998-05-01', 'OH', '7065 Ryan Radial Suite 902', 'Gorczanyland', 'NC', '51257', 'et', 'eum', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(8, 'Georgianna Ortiz', 'Altenwerth', 'maschio', 'libero', '694.499.6761 x684', '(254) 680-8314', 'sterling.spinka@example.org', 'r\\:BKFK', 'Fatimaview', '1983-08-31', 'MN', '97375 Schultz Glen', 'Ervinborough', 'ND', '82587-1630', 'consectetur', 'nobis', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(9, 'Prof. Finn Eichmann III', 'Smith', 'maschio', 'occaecati', '(564) 904-8680', '639.490.8994 x9885', 'nona85@example.com', 'uiw-\\.n\"', 'West Uriahborough', '2012-08-24', 'VA', '146 Jakubowski Ridge', 'Bessieburgh', 'NC', '83865', 'accusantium', 'sit', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(10, 'Brooklyn Pacocha DDS', 'Stamm', 'maschio', 'dolorum', '769.985.1627 x6210', '+19097307395', 'myriam57@example.com', '+mX:r~R?kFNj', 'Port Elfriedafurt', '1971-12-16', 'TN', '2596 Kaylee Locks', 'Lake Careyton', 'NC', '95553-3126', 'placeat', 'cumque', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(11, 'Annie Gerlach DDS', 'Pfannerstill', 'maschio', 'cumque', '913-698-5009 x71700', '(203) 633-0804 x66193', 'sipes.saige@example.org', '^yRWo(nE?4_W', 'Jessikaland', '1975-08-10', 'ME', '5489 Tania Expressway Apt. 383', 'Lake Annamaeberg', 'RI', '90940-3032', 'saepe', 'aut', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(12, 'Prof. Chloe Jast', 'Barton', 'maschio', 'ea', '+1 (843) 612-3033', '1-516-908-6496', 'strosin.cortney@example.org', 'G(&[aNy?y.ck\'~^,s', 'New Fabianmouth', '2016-10-03', 'VT', '440 Kuhic Light', 'North Madie', 'ME', '28277', 'similique', 'sed', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(13, 'Nya Doyle', 'Hahn', 'maschio', 'voluptatem', '1-889-671-6310', '+1 (460) 950-8437', 'cornelius.feil@example.net', '|GfgF!W1{uL3dPOc@J', 'Eliseoport', '1975-11-24', 'KY', '3044 Liana Bridge', 'South Nicoleburgh', 'GA', '40605-3443', 'pariatur', 'dolore', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(14, 'Dr. Glen Rosenbaum', 'Boyle', 'maschio', 'vitae', '595.533.2727 x687', '651.371.7211 x52673', 'caroline.metz@example.net', 'F+iO>^', 'Connellychester', '2007-04-27', 'AL', '165 Millie Hills', 'Hauckmouth', 'MS', '89126', 'minus', 'culpa', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(15, 'Beth Krajcik DVM', 'Bartell', 'maschio', 'ea', '(659) 519-7177 x41767', '221-537-8254', 'braun.maggie@example.net', 'N+V>,S|Kn7dAFd$7L', 'Lubowitzberg', '2000-10-18', 'WI', '4701 Hermann Orchard Apt. 289', 'Cleoraview', 'FL', '08203', 'non', 'est', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(16, 'Lea Bode', 'Dietrich', 'maschio', 'fuga', '+1 (369) 825-1354', '248-421-5870 x84650', 'neha30@example.org', 'nvi/2X[#`\\[S,d\'y', 'New Makenzieland', '1975-05-15', 'GA', '769 Mayert Mountains', 'Schmittfort', 'NV', '99020-1474', 'ullam', 'itaque', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(17, 'Yoshiko Paucek', 'Vandervort', 'maschio', 'beatae', '1-881-432-8771', '852-546-9763', 'jamar.carter@example.net', 'mu\"3XdlJm@z#', 'Douglasland', '2010-02-22', 'LA', '938 Hodkiewicz Roads', 'New Payton', 'MI', '89186-1435', 'expedita', 'laudantium', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(18, 'Justus Monahan III', 'Block', 'maschio', 'corporis', '+1-484-439-4993', '939.483.6422', 'elroy.maggio@example.org', ':B^^(kG', 'Gulgowskiside', '1985-01-16', 'OH', '28296 Jonathon Mission Apt. 837', 'East Ivahburgh', 'MI', '45765-0775', 'ut', 'commodi', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(19, 'Glenna Von', 'O\'Keefe', 'maschio', 'est', '486.350.7953', '865.771.1338', 'lindgren.faustino@example.net', '0O9Pg@r', 'Weimannmouth', '1998-01-13', 'IL', '1696 Kshlerin Tunnel', 'Gerholdside', 'PA', '41544-7646', 'ut', 'magni', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39'),
+(20, 'Donald Hagenes', 'Kshlerin', 'maschio', 'cum', '1-662-847-2113', '(996) 658-1002', 'cummerata.althea@example.net', '0A>C#Zl){', 'West Aida', '2009-04-16', 'AK', '17313 Rutherford Mission', 'Angeloton', 'NC', '23233-4895', 'quam', 'praesentium', '0', '0', '1', '2019-09-05 13:49:38', '2019-09-05 13:49:39');
 
 -- --------------------------------------------------------
 
@@ -151,22 +159,6 @@ CREATE TABLE `eicardcodes` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dump dei dati per la tabella `eicardcodes`
---
-
-INSERT INTO `eicardcodes` (`id`, `codice`, `attivo`, `operatore`, `created_at`, `updated_at`) VALUES
-(1, '000123123', '1', NULL, '2019-08-30 14:32:50', '2019-08-30 14:34:56'),
-(2, '000123124', '1', NULL, '2019-08-30 14:32:50', '2019-08-30 14:53:11'),
-(3, '000123125', '1', NULL, '2019-08-30 14:32:50', '2019-08-30 14:53:15'),
-(4, NULL, '1', NULL, '2019-08-30 14:32:50', '2019-08-30 14:32:50'),
-(5, NULL, '1', NULL, '2019-08-30 14:32:50', '2019-08-30 14:32:50'),
-(6, NULL, '1', NULL, '2019-08-30 14:32:50', '2019-08-30 14:32:50'),
-(7, NULL, '1', NULL, '2019-08-30 14:32:50', '2019-08-30 14:32:50'),
-(8, NULL, '1', NULL, '2019-08-30 14:32:50', '2019-08-30 14:32:50'),
-(9, NULL, '1', NULL, '2019-08-30 14:32:51', '2019-08-30 14:32:51'),
-(10, NULL, '1', NULL, '2019-08-30 14:32:51', '2019-08-30 14:32:51');
-
 -- --------------------------------------------------------
 
 --
@@ -182,15 +174,6 @@ CREATE TABLE `logcards` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dump dei dati per la tabella `logcards`
---
-
-INSERT INTO `logcards` (`id`, `card_id`, `operatore`, `quantita`, `costo`, `created_at`, `updated_at`) VALUES
-(1, 1, '1', 10, 50.00, '2019-08-30 14:32:50', '2019-08-30 14:32:50'),
-(2, 2, '1', 20, 50.00, '2019-08-30 14:35:23', '2019-08-30 14:35:23'),
-(3, 3, '1', 20, 40.00, '2019-08-30 14:35:34', '2019-08-30 14:35:34');
 
 -- --------------------------------------------------------
 
@@ -226,8 +209,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (15, '2019_08_30_110145_create_users_roles_table', 1),
 (16, '2019_08_30_110231_create_roles_permissions_table', 1),
 (17, '2019_08_30_151402_create_eicardcodes_table', 1),
-(18, '2019_08_31_093948_create_transactions_table', 2),
-(19, '2019_09_02_123226_create_xsettings_table', 3);
+(18, '2019_08_31_093948_create_transactions_table', 1),
+(19, '2019_09_02_123226_create_xsettings_table', 1),
+(20, '2019_09_04_164710_create_tokens_table', 1),
+(21, '2019_09_05_140424_create_tokenlogs_table', 1);
 
 -- --------------------------------------------------------
 
@@ -245,17 +230,6 @@ CREATE TABLE `modules` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dump dei dati per la tabella `modules`
---
-
-INSERT INTO `modules` (`id`, `course_id`, `nome`, `descrizione`, `durata`, `costo`, `created_at`, `updated_at`) VALUES
-(1, 9, 'prima fase', 'asd', '12', 150.00, '2019-08-31 10:54:03', '2019-08-31 10:54:03'),
-(2, 11, 'esami1', 'dsfsdf', NULL, 200.00, '2019-09-01 10:47:39', '2019-09-01 10:47:39'),
-(3, 11, 'esame 2', 'lsfhglsfh', NULL, 150.00, '2019-09-01 10:48:22', '2019-09-01 10:48:22'),
-(4, 9, 'seconda fase', 'sòlkjdf', NULL, 300.00, '2019-09-01 10:49:54', '2019-09-01 10:49:54'),
-(7, 12, 'esame1', NULL, NULL, 50.00, '2019-09-01 11:01:52', '2019-09-01 11:01:52');
 
 -- --------------------------------------------------------
 
@@ -288,8 +262,8 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `slug`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'create-tasks', 'Create Tasks', '2019-08-30 14:28:08', '2019-08-30 14:28:08'),
-(2, 'edit-users', 'Edit Users', '2019-08-30 14:28:08', '2019-08-30 14:28:08');
+(1, 'create-tasks', 'Create Tasks', '2019-09-05 13:49:37', '2019-09-05 13:49:37'),
+(2, 'edit-users', 'Edit Users', '2019-09-05 13:49:37', '2019-09-05 13:49:37');
 
 -- --------------------------------------------------------
 
@@ -341,8 +315,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `slug`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'Front-end Developer', '2019-08-30 14:28:08', '2019-08-30 14:28:08'),
-(2, 'user', 'General User', '2019-08-30 14:28:08', '2019-08-30 14:28:08');
+(1, 'admin', 'Front-end Developer', '2019-09-05 13:49:37', '2019-09-05 13:49:37'),
+(2, 'user', 'General User', '2019-09-05 13:49:37', '2019-09-05 13:49:37');
 
 -- --------------------------------------------------------
 
@@ -383,7 +357,74 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `titolo`, `email`, `logo`, `created_at`, `updated_at`) VALUES
-(1, 'PladgeCourse', 'info@pladgepeople.it', '/uploads/images/PladgeCourse_1567428705.png', '2019-08-21 22:00:00', '2019-09-02 10:51:45');
+(1, 'PladgeCourse', 'info@pladgepeople.it', '/img.png', '2019-09-05 13:49:38', '2019-09-05 13:49:38');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `tokenlogs`
+--
+
+CREATE TABLE `tokenlogs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `token_id` bigint(20) UNSIGNED NOT NULL,
+  `costo` double(8,2) DEFAULT '0.00',
+  `totale` double(8,2) DEFAULT '0.00',
+  `quantita` int(11) DEFAULT '0',
+  `tipomovimento` enum('in','out') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `operatore` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `tokenlogs`
+--
+
+INSERT INTO `tokenlogs` (`id`, `token_id`, `costo`, `totale`, `quantita`, `tipomovimento`, `operatore`, `created_at`, `updated_at`) VALUES
+(1, 1, 20.00, 100.00, 5, 'out', '1', '2019-09-05 13:49:59', '2019-09-05 13:49:59'),
+(2, 2, 15.00, 45.00, 3, 'out', '1', '2019-09-05 13:50:06', '2019-09-05 13:50:06'),
+(3, 3, 5.00, 20.00, 4, 'out', '1', '2019-09-05 13:50:19', '2019-09-05 13:50:19'),
+(4, 3, 10.00, 50.00, 5, 'out', '1', '2019-09-05 13:50:29', '2019-09-05 13:50:29'),
+(5, 7, 3.00, 6.00, 2, 'out', '1', '2019-09-05 14:02:51', '2019-09-05 14:02:51'),
+(6, 9, 5.00, 10.00, 2, 'out', '1', '2019-09-05 14:03:27', '2019-09-05 14:03:27'),
+(7, 5, 12.00, 60.00, 5, 'out', '1', '2019-09-05 14:04:05', '2019-09-05 14:04:05'),
+(8, 1, 33.00, 726.00, 22, 'out', '1', '2019-09-05 14:04:27', '2019-09-05 14:04:27'),
+(9, 1, 44.00, 1452.00, 33, 'out', '1', '2019-09-05 14:05:37', '2019-09-05 14:05:37'),
+(10, 1, 44.00, 1452.00, 333, 'out', '1', '2019-09-05 14:06:02', '2019-09-05 14:46:24'),
+(11, 1, 44.00, 1452.00, 33, 'out', '1', '2019-09-05 14:06:56', '2019-09-05 14:06:56'),
+(12, 6, 3.00, 12.00, 4, 'out', '1', '2019-09-05 14:07:12', '2019-09-05 14:07:12');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `tokens`
+--
+
+CREATE TABLE `tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nome` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantita` int(11) DEFAULT '0',
+  `costo` double(8,2) DEFAULT '0.00',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `tokens`
+--
+
+INSERT INTO `tokens` (`id`, `nome`, `quantita`, `costo`, `created_at`, `updated_at`) VALUES
+(1, 'Ei-Token EIPASS Unica', 126, 44.00, '2019-09-05 13:49:39', '2019-09-05 14:06:56'),
+(2, 'Eipass Corsi on-line', 3, 15.00, '2019-09-05 13:49:39', '2019-09-05 13:50:06'),
+(3, 'UPGRADE', 9, 10.00, '2019-09-05 13:49:39', '2019-09-05 13:50:29'),
+(4, 'PEKIT', 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(5, 'Inglese Token A1', 5, 12.00, '2019-09-05 13:49:40', '2019-09-05 14:04:05'),
+(6, 'Inglese Token A2', 4, 3.00, '2019-09-05 13:49:40', '2019-09-05 14:07:12'),
+(7, 'Inglese Token B1', 2, 3.00, '2019-09-05 13:49:40', '2019-09-05 14:02:51'),
+(8, 'Inglese Token B2', 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40'),
+(9, 'Inglese Token C1', 2, 5.00, '2019-09-05 13:49:40', '2019-09-05 14:03:27'),
+(10, 'Inglese Token C2', 0, 0.00, '2019-09-05 13:49:40', '2019-09-05 13:49:40');
 
 -- --------------------------------------------------------
 
@@ -402,16 +443,6 @@ CREATE TABLE `transactions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dump dei dati per la tabella `transactions`
---
-
-INSERT INTO `transactions` (`id`, `nome`, `descrizione`, `tipo`, `ricorrente`, `cifra`, `operatore`, `created_at`, `updated_at`) VALUES
-(1, 'Virgilio', 'pagamento mesile', 'in', '0', 122.00, '1', '2019-08-31 08:49:30', '2019-08-31 08:49:30'),
-(2, 'pagamento postino', 'postino', 'out', '1', 25.00, '1', '2019-08-31 08:58:42', '2019-08-31 08:58:42'),
-(3, 'intervento', 'pagamento lavoro su pc', 'in', '0', 50.00, '1', '2019-08-31 09:04:49', '2019-08-31 09:04:49'),
-(4, 'Affitto', 'affito locale', 'out', '0', 600.00, '1', '2019-08-31 11:01:59', '2019-08-31 11:01:59');
 
 -- --------------------------------------------------------
 
@@ -435,8 +466,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Riccardo Virgilio', 'riccardo.virgilio@gmail.com', NULL, '$2y$10$LnobegE0DrKkwKRdDM0tCOXu9Dg1DfZ.FGR9VbE6rzHDR0uOs6O1e', NULL, '2019-08-30 14:28:09', '2019-08-30 14:28:09'),
-(2, 'Asad Butt', 'asad@thewebtier.com', NULL, '$2y$10$unAzen5xZ/dbxQ2Me48r6OmZZCTba1/fXicz8yntNjGsFmVLm9oSu', NULL, '2019-08-30 14:28:09', '2019-08-30 14:28:09');
+(1, 'Riccardo Virgilio', 'riccardo.virgilio@gmail.com', NULL, '$2y$10$rVegkFmcEjMTP9EYhAKLhefasSqKZDJ1pjIqtAzF6EHnYIuj57K9W', NULL, '2019-09-05 13:49:37', '2019-09-05 13:49:37'),
+(2, 'Asad Butt', 'asad@thewebtier.com', NULL, '$2y$10$emATsFFbRj3ZOhZjQBVfDe190c9giEFc5mujXYs7szAnk01tNHmpO', NULL, '2019-09-05 13:49:38', '2019-09-05 13:49:38');
 
 -- --------------------------------------------------------
 
@@ -489,16 +520,6 @@ CREATE TABLE `xsettings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dump dei dati per la tabella `xsettings`
---
-
-INSERT INTO `xsettings` (`id`, `nome`, `valore`, `created_at`, `updated_at`) VALUES
-(1, 'TipoPagamento', 'Contati', '2019-09-02 10:46:24', '2019-09-02 10:46:24'),
-(2, 'TipoPagamento', 'Rate Mensili', '2019-09-02 10:46:35', '2019-09-02 10:46:35'),
-(3, 'TipoPagamento', 'Bonifico', '2019-09-02 10:46:45', '2019-09-02 10:46:45'),
-(4, 'TipoPagamento', 'Paypal', '2019-09-02 10:46:53', '2019-09-02 10:46:53');
 
 --
 -- Indici per le tabelle scaricate
@@ -602,6 +623,19 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indici per le tabelle `tokenlogs`
+--
+ALTER TABLE `tokenlogs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tokenlogs_token_id_foreign` (`token_id`);
+
+--
+-- Indici per le tabelle `tokens`
+--
+ALTER TABLE `tokens`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indici per le tabelle `transactions`
 --
 ALTER TABLE `transactions`
@@ -642,49 +676,49 @@ ALTER TABLE `xsettings`
 -- AUTO_INCREMENT per la tabella `cards`
 --
 ALTER TABLE `cards`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT per la tabella `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT per la tabella `eicardcodes`
 --
 ALTER TABLE `eicardcodes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `logcards`
 --
 ALTER TABLE `logcards`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT per la tabella `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `permissions`
@@ -717,10 +751,22 @@ ALTER TABLE `settings`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT per la tabella `tokenlogs`
+--
+ALTER TABLE `tokenlogs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT per la tabella `tokens`
+--
+ALTER TABLE `tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT per la tabella `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
@@ -732,7 +778,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `xsettings`
 --
 ALTER TABLE `xsettings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Limiti per le tabelle scaricate
@@ -769,6 +815,12 @@ ALTER TABLE `proposal_items`
 ALTER TABLE `roles_permissions`
   ADD CONSTRAINT `roles_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `roles_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `tokenlogs`
+--
+ALTER TABLE `tokenlogs`
+  ADD CONSTRAINT `tokenlogs_token_id_foreign` FOREIGN KEY (`token_id`) REFERENCES `tokens` (`id`);
 
 --
 -- Limiti per la tabella `users_permissions`

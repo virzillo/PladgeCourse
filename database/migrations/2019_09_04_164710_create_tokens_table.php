@@ -16,7 +16,8 @@ class CreateTokensTable extends Migration
         Schema::create('tokens', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nome');
-
+            $table->integer('quantita')->nullable()->default(0);
+            $table->float('costo')->nullable()->default(0);
             $table->timestamps();
         });
     }

@@ -12,43 +12,15 @@
 @push('style')
 
 @endpush
-<div class="row">
-    {{-- <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title"></h4>
-                 
-                    <div class="table-responsive m-t-40">
-                        <table id="tabclienti" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>totali</th>
-                                    <th>#</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($tokens as $token)
-                                <tr>
-                                    <td>{{$token->nome}}</td>
-                                    <td>2</td>
-                                    <td> 
-                                        <button type="button"  data-toggle="modal" data-target="#add" id="addbtn" data-id="{{$token->id}}" data-id="ciao" class="btn  btn-success waves-effect waves-dark">add</button>
-                                        <button type="button" data-toggle="modal"  data-target="#edit"  id="editbtn" data-id="{{$token->id}}" class="btn   btn-danger  waves-effect waves-dark">edit</button>
-                                        <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Delete"><i class="ti-close" aria-hidden="true"></i></button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                               
-                                
-                            </tbody>
-                        </table>
-                    </div>
-        </div>
-    </div> --}}
 
-  @foreach ($tokens as $token)
-       <div class="col-lg-4 col-md-12">
+@include('widgets.errors')
+
+
+<div class="row">
+  
+
+    @foreach ($tokens as $token)
+        <div class="col-lg-4 col-md-12">
             <div class="card">
                 <div class="card-body bg-info">
                     <h4 class="text-white card-title">{{ $token->nome}}</h4>
@@ -56,8 +28,8 @@
                 <div class="card-body">
                     <div class="message-box contact-box">
                         <h2 class="add-ct-btn">
-                            <button type="button"  data-toggle="modal" data-target="#add" id="addbtn" data-id="{{$token->id}}" class="btn  btn-success waves-effect waves-dark">add</button>
-                            <button type="button" data-toggle="modal"  data-target="#edit"  id="editbtn" data-id="{{$token->id}}" class="btn btn-danger  waves-effect waves-dark">edit</button>
+                            <button type="button"  data-toggle="modal" data-target="#add" id="addbtn" data-id="{{$token->id}}" data-nome="{{$token->nome}}" class="btn  btn-success waves-effect waves-dark">add</button>
+                           
                             {{-- <button type="button" data-toggle="modal" data-target="#vediTab"  class="btn  btn-primary waves-effect waves-dark">show</button> --}}
                         </h2>
                         <div class="message-widget contact-widget">
@@ -72,14 +44,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($token_operations as $item)
-                                                @if ($item->token_id==$token->id)
-                                                    <tr>
-                                                    <td id="ta">{{$item->quantita}}</td>
-                                                    <td><span class="label label-danger">{{$item->costo}} €</span> </td>
+                                           
+                                              
+                                                <tr>
+                                                    <td id="ta">{{$token->quantita}}</td>
+                                                    <td id="tb">0</td>
+                                                    <td><span class="label label-danger">5</span> </td>
                                                 </tr> 
-                                                @endif
-                                            @endforeach
+                                    
                                         </tbody>
                                     </table>
                                 </div>
@@ -89,11 +61,143 @@
                 </div>
             </div>
         </div>
-        @endforeach
+    @endforeach
+
+
+         <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body bg-info">
+                    <h4 class="card-title"></h4>
+                    <button type="button"  data-toggle="modal" data-target="#addTab" id="addbtn2" class="btn  btn-primary waves-effect waves-dark">add</button>
+                </div>
+                 <div class="card-body ">
+                    <div class="table-responsive">
+                        <table class="table stylish-table" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>token</th>
+                                    <th>cifra</th>
+                                    <th>quantita</th>
+                                    <th>movimento</th>
+                                    <th>totale</th>
+                                    <th>operatore</th>
+                                    <th>data</th>
+                                    <th>#</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($token_logs as $item)
+                                    <tr>
+                                        <td>{{$item->id}}</td>
+                                        <td>{{$item->token->nome}}</td>
+                                        <td>{{$item->costo}} €</td>
+                                        <td>{{$item->quantita}}</td>
+                                        <td>{{$item->tipomovimento}}</td>
+                                        <td>{{$item->totale}} €</td>
+                                        <td>{{$item->user->name}}</td>
+                                        <td>{{$item->created_at->format('d/m/Y')}}</td>
+                                       <td> <button type="button" data-toggle="modal"  data-target="#edit" id="editbtn" 
+                                        data-id="{{$item->id}}" data-quantita="{{$item->quantita}}"  data-costo="{{$item->costo}}" 
+                                        class="btn btn-danger  waves-effect waves-dark">edit</button></td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
+
+
+        </div>
+
+
 
 </div>
-
 @include('admin.storage.modalform')
+
+    <div class="modal fade" id="addTab" tabindex="-1" role="dialog" aria-labelledby="addCardLabel1" aria-hidden="true" role="dialog" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel1"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                          <form action="{{ route('storage.store') }}"  id="formadd"  method="POST">
+                                @csrf
+                             <div class="form-group"  id="divcategoria">
+                                <label>Assegna Categoria</label>
+                                    <select name="nome" id="nome" class="form-control">
+                                        <option value="" disabled>Seleziona Token</option>
+                                        @foreach ($tokens as $token)
+                                        <option value="{{$token->nome}}">{{$token->nome}}</option>
+                                        @endforeach
+                                    </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">Seleziona quantità:</label>
+                                <input type="number" class="form-control"  name="quantita">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="control-label">Costo per unità:</label>
+                                <input type="text" class="form-control" name="costo">
+                            </div>
+                    </div>
+                   
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                        <input type="submit" name="action_button" id="action_button" class="btn btn-primary" value="Add" />
+                    </div>
+                        </form>
+
+                </div>
+            </div>
+        </div>
+
+@if (isset($token_logs))
+         <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="addCardLabel1" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel1"> Modifica quantità</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                          <form id="formupdate" action="" method="POST">
+                                @csrf
+                                @method('PATCH')
+                            <input type="hidden" class="form-control" id="editid" name="id">
+                            
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">Seleziona quantità:</label>
+                                <input type="number" class="form-control " id="editquantita" name="quantita" >
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="control-label">Costo per unità:</label>
+                                <input type="number" class="form-control" id="editcosto" name="costo">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Modifica</button>
+                    </div>
+                        </form>
+
+                </div>
+            </div>
+        </div>
+@endif
+
+
 
 @endsection
 
@@ -101,16 +205,41 @@
 
 @push('script')
  <script>
-
-     $('#add').on('show.bs.modal', function (event) {
+    // inserimento da tabella
+    $('#addTab').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
-        var id = button.data('id')
-
        
         var modal = $(this)
-        modal.find('.modal-title').text('New message to ' + id)
+        modal.find('.modal-title').text('New message to ' + nome)
+
+    })
+    // modifica da tabella
+    $('#edit').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var id = button.data('id')
+        var quantita =parseInt(button.data('quantita'))
+        var costo = button.data('costo')
+        var url ='/admin/storage/'+id
+        var modal = $(this)
+        modal.find('.modal-title').text('Modifica ' + id)
+        $('#editid').val(id)
+        $('#editquantita').val(quantita)
+        $('#editcosto').val(costo)
+        $("#formupdate").attr("action", url);
+
+    })
+
+
+    $('#add').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var id = button.data('id')
+        var nome = button.data('nome')
+       
+        var modal = $(this)
+        modal.find('.modal-title').text('New message to ' + nome)
         $('#id').val(id)
-        })
+        $('#nome').val(nome)
+    })
 
 
 
@@ -135,7 +264,7 @@
 
         $('#myTable').DataTable({
                   "columnDefs": [
-                        { "orderable": false, "targets":[1,2,3,4,5,7]  }
+                        { "orderable": false, "targets":[]  }
                     ],
                     "displayLength": 10,
                     "order": [

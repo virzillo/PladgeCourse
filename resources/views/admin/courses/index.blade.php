@@ -23,15 +23,7 @@
             <div class="modal-body">
                 <form action="{{ route('courses.store') }}" method="POST">
                     @csrf
-                        <div class="form-group">
-                        <label>Assegna Categoria</label>
-                            <select name="card_id" id="card_id" class="form-control">
-                                <option value="" disabled>seleziona categoria</option>
-                                @foreach ($cards as $card)
-                                <option value="{{$card->id}}">{{$card->nome}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                       
                     
                      <div class="form-group m-b-0" >
                         <label>Seleziona tipo corso</label>
@@ -67,6 +59,15 @@
                     <div class="form-group" id="divcosto"  >
                         <label>Importo Esami</label>
                         <input type="number" class="form-control" name="costo" id="costo"> 
+                    </div>
+                     <div class="form-group"  id="divcategoria">
+                        <label>Assegna Categoria</label>
+                            <select name="card_id" id="card_id" class="form-control">
+                                <option value="" disabled>seleziona categoria</option>
+                                @foreach ($cards as $card)
+                                <option value="{{$card->id}}">{{$card->nome}}</option>
+                                @endforeach
+                            </select>
                     </div>
             </div>
             <div class="modal-footer">
@@ -214,6 +215,8 @@
             $('#diviscrizione').addClass('nascondi');
             $('#divesami').addClass('nascondi');
             $('#divcosto').addClass('nascondi'); 
+            $('#divcategoria').addClass('nascondi'); 
+
         });
 
 
@@ -224,6 +227,7 @@
                 $('#divnome').removeClass('nascondi');
                 $('#divdescrizione').removeClass('nascondi');
                 $('#diviscrizione').removeClass('nascondi');
+                $('#divcategoria').removeClass('nascondi'); 
                 $('#divesami').addClass('nascondi');
                 $('#divcosto').addClass('nascondi');
             } else {
@@ -233,6 +237,8 @@
                 $('#diviscrizione').removeClass('nascondi');
                 $('#divesami').removeClass('nascondi');
                 $('#divcosto').removeClass('nascondi');
+                $('#divcategoria').removeClass('nascondi'); 
+                
             }
          });
 
